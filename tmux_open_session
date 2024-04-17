@@ -1,0 +1,83 @@
+#!/bin/bash
+# configurable parameters
+REPOS_DIRECTORY="$HOME/Documents/repos"
+#OTHER_DIRECTORY="$HOME"
+
+# Check if fzf is installed
+check_fzf_installed() {
+    if ! command -v fzf >/dev/null 2>&1; then
+        echo "Error: fzf is not installed. Please install fzf to use this script."
+        exit 1
+    fi
+}
+
+# Check if tmux is installed
+check_tmux_installed() {
+    if ! command -v tmux >/dev/null 2>&1; then
+        echo "Error: tmux is not installed. Please install tmux to use this script."
+        exit 1
+    fi
+}
+
+# Check if tmux server is running
+is_tmux_server_running() {
+    # Check if a tmux session is already running
+    if ! tmux has-session -t default 2>/dev/null; then
+        # If no tmux session is running, start in a new detached session named "default"
+        tmux new-session -d -s default && tmux at -t "default"
+        exit 0
+    fi
+}
+
+# Function to display directory selection menu
+select_directory() {
+    local items
+    items=$(find "$REPOS_DIRECTORY" -maxdepth 2 -mindepth 2 -type d)
+
+    # Use fzf to display full directory path alongside directory names
+    selected=$(echo "$items" | fzf)
+
+    # Return the selected directory path
+    echo "$selected"
+}
+
+# Main script
+main() {
+    # Check if fzf is installed
+    check_fzf_installed
+
+    # Check if tmux is installed
+    check_tmux_installed
+
+    # Check if tmux server is running
+    is_tmux_server_running
+
+    if [[ $# -eq 1 ]]; then
+        selected=$1
+    else
+        selected=$(select_directory)
+    fi
+
+    # If no directory is selected, do nothing
+    #if [[ -z "$selected" ]]; then
+    #    echo "Error: No directory selected."
+    #    exit 1
+    #fi
+
+    #if ! cd "$selected"; then
+    #    echo "Error: Failed to switch to the selected directory."
+    #    exit 1
+    #fi
+
+    dirname=$(basename "$selected")
+
+    # Check if tmux session already exists
+    if tmux has-session -t "$dirname" 2>/dev/null; then
+        tmux switch-client -t "$dirname"
+    else
+        tmux new-session -c "$selected" -d -s "$dirname" && tmux switch-client -t "$dirname" || tmux new -c "$selected" -A -s "$dirname" -F "$dirname"
+    fi
+}
+
+# Call the main function
+main
