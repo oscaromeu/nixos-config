@@ -17,11 +17,7 @@ source $ZSH/oh-my-zsh.sh
 # TMUX 
 alias tmux_open_session="/usr/local/bin/tmux_open_session"
 
-_switch_session(){
-
-    tmux_open_session   "$HOME/Documents/Repos" "$HOME/Documents"
-
-}
+_switch_session(){ tmux_open_session }
 
 zle -N _switch_session
 bindkey '^f' _switch_session
