@@ -1,7 +1,8 @@
 #!/bin/bash
 # configurable parameters
-REPOS_DIRECTORY="$HOME/Documents/repos"
-#OTHER_DIRECTORY="$HOME"
+#REPOS_DIRECTORY="$HOME/Documents/repos"
+REPOS_DIRECTORY="$HOME/Documents"
+#OTHER_DIRECTORY="$HOME/Documents"
 
 # Check if fzf is installed
 check_fzf_installed() {
@@ -32,7 +33,8 @@ is_tmux_server_running() {
 # Function to display directory selection menu
 select_directory() {
     local items
-    items=$(find "$REPOS_DIRECTORY" -maxdepth 2 -mindepth 2 -type d)
+    items=$(find "$REPOS_DIRECTORY" -maxdepth 3 -mindepth 0 -type d)
+    #items+="$(find "$OTHER_DIRECTORY" -maxdepth 1 -mindepth 1 -type d)"
 
     # Use fzf to display full directory path alongside directory names
     selected=$(echo "$items" | fzf)
