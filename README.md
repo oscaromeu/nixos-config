@@ -81,9 +81,6 @@ If a change breaks the boot, reboot and pick an older generation in the systemd-
 | `Print` | Screenshot: `1` screen, `2` region, `3` window |
 | `Shift` + `Print` | Record: `1-4` variants, `0` stops |
 
-## Notes
-
-The longer notes — concepts, recipes, how to add a machine — live in my Outline, under [HO > nixos-config](https://docs.oscaromeu.io/doc/nixos-config-jnsjJUIwz8).
 
 ## Gratitude and thanks
 
