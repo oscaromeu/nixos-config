@@ -1,0 +1,29 @@
+{ ... }:
+{
+  imports = [
+    ./bat.nix
+    ./cava.nix
+    ./direnv.nix
+    ./eza.nix
+    ./fastfetch.nix
+    ./firefox.nix
+    ./fish.nix
+    ./foot.nix
+    ./fzf.nix
+    ./gh.nix
+    ./git.nix
+    ./go.nix
+    ./helix.nix
+    ./imv.nix
+    ./jq.nix
+    ./kitty.nix
+    ./mpv.nix
+    ./nvim
+    ./rofi.nix
+    ./swaylock.nix
+    ./waybar.nix
+    ./yazi.nix
+    ./zathura.nix
+    ./zellij.nix
+  ];
+}
