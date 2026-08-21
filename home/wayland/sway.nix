@@ -77,12 +77,8 @@ in
               natural_scroll = "disabled";
             };
           };
-          output = {
-            "*" = {
-              # Made with gen_wallpaper.py; swap the PNG and rebuild to change it.
-              bg = "${./wallpaper.png} fill";
-            };
-          };
+          # No bg here on purpose: wpaperd owns the wallpaper, and two
+          # providers means whichever layer lands on top wins.
           seat = {
             "*" = {
               hide_cursor = "3000";
