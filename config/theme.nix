@@ -17,6 +17,8 @@ let
   font-emoji = "Twitter Color Emoji";
   font-size = 10;
   font-size-alt = 14;
+  # The bar is its own case: 24px tall leaves no room for 14.
+  font-size-bar = 12;
 
 in
 {
@@ -35,4 +37,5 @@ in
   inherit font-emoji;
   inherit font-size;
   inherit font-size-alt;
+  inherit font-size-bar;
 }

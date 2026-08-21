@@ -12,7 +12,7 @@
         mainBar = {
           layer = "bottom";
           position = "top";
-          height = 30;
+          height = 24;
           spacing = 6;
           modules-left = [
             "sway/workspaces"
@@ -126,7 +126,7 @@
       style = ''
         * {
           font-family: ${theme.font}, ${theme.font-symbol};
-          font-size: ${toString theme.font-size-alt}px;
+          font-size: ${toString theme.font-size-bar}px;
           min-height: 0;
         }
 
