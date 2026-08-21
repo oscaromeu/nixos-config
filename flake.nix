@@ -60,6 +60,8 @@
                 useUserPackages = true; # user packages through the system profile
                 # Move files already in $HOME aside instead of failing the activation.
                 backupFileExtension = "hm-backup";
+                # sops-nix lives in the home-manager layer here too, same as standalone.
+                sharedModules = [ sops-nix.homeManagerModules.sops ];
                 users.${profile.name} = import ./home;
                 extraSpecialArgs = mkSpecialArgs profile;
               };
@@ -102,7 +104,6 @@
           profile = import ./user/work.nix { };
           modules = [
             ./home/common.nix # CLI only for now
-            ./home/secrets.nix
             ./home/work.nix
           ];
         };

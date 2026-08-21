@@ -4,7 +4,10 @@ let
 
   name = "oscar"; # unix user
   fullname = "Oscar Romeu"; # git and the account description
-  email = "oscar@example.com"; # TODO: real email, git uses it
+  # nixos-config is public, so the email is not in here either. git picks it up
+  # from ~/.config/git/identity on the machine — see home/programs/git.nix.
+  email = null;
+  secrets = ../secrets/personal.sops.yaml;
 
   layout = "es";
   variant = "cat";
@@ -22,6 +25,7 @@ in
     name
     fullname
     email
+    secrets
     layout
     variant
     timezone

@@ -8,6 +8,7 @@ let
   # nixos-config is public, so the work email is not in here. git picks it up
   # from ~/.config/git/identity on the machine — see home/programs/git.nix.
   email = null;
+  secrets = ../secrets/work.sops.yaml;
 
   layout = "es";
   variant = "cat";
@@ -23,6 +24,7 @@ in
     name
     fullname
     email
+    secrets
     layout
     variant
     timezone

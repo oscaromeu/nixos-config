@@ -7,6 +7,7 @@
     ./packages/common.nix
     ./programs/common.nix
     ./services/common.nix
+    ./secrets.nix # every profile keeps its git identity out of the repo
   ];
 
   home = {
