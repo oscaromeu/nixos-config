@@ -1,0 +1,10 @@
+---
+creation_rules:
+  - path_regex: secrets/.*\.sops\.ya?ml
+    key_groups:
+      - age:
+          # My key, on the Mac (home-ops/age.key). Add each machine's own
+          # public key here as a second recipient and run `sops updatekeys`.
+          - "age1ptththqpxnx0zuzmq0peq9x30vqgdedjsdlsuzxr5gfc36mnwqlsylrpr8"
+          # portátil del trabajo (oscar-romeu@ubuntu 24.04)
+          - "age1q6l5rnhxcdhx0nwv29y4wsx73h0dzc36c2h9mym2gskhv7nmcu7snrnhtf"

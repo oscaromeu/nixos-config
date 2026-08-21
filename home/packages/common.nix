@@ -14,13 +14,6 @@ let
     wget
   ];
 
-  desktop = [
-    grim
-    pavucontrol
-    wdisplays # monitor layout, Mod+p
-    wl-clipboard
-  ];
-
   dev = [
     gnumake
     python3
@@ -34,6 +27,6 @@ let
 in
 {
   home = {
-    packages = cli ++ desktop ++ dev ++ devops;
+    packages = cli ++ dev ++ devops;
   };
 }

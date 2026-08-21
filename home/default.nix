@@ -1,44 +1,9 @@
-{ profile, alias, ... }:
+# The full desktop, which is what a NixOS host gets. Machines that only want
+# the CLI half import ./common.nix alone — see homeConfigurations in flake.nix.
+{ ... }:
 {
   imports = [
-    ./config
-    ./fonts
-    ./packages
-    ./programs
-    ./services
-    ./themes
-    ./wayland
-    ./xdg
+    ./common.nix
+    ./desktop.nix
   ];
-
-  home = {
-    username = profile.name;
-    homeDirectory = "/home/${profile.name}";
-
-    # Same rule as system.stateVersion: set once, never changed.
-    stateVersion = "26.05";
-
-    shellAliases = alias.abbr;
-
-    sessionVariables = {
-      XDG_CURRENT_DESKTOP = "sway";
-      XDG_SESSION_DESKTOP = "sway";
-      XDG_SESSION_TYPE = "wayland";
-
-      # Native Wayland for the apps that need telling
-      MOZ_ENABLE_WAYLAND = "1";
-      MOZ_USE_XINPUT2 = "1";
-      NIXOS_OZONE_WL = "1"; # electron/chromium
-      QT_QPA_PLATFORM = "wayland";
-      QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-      SDL_VIDEODRIVER = "wayland";
-
-      GTK_THEME = "Breeze-Dark";
-
-      # Java: avoids grey windows on tiling WMs
-      _JAVA_AWT_WM_NONREPARENTING = 1;
-
-      SSH_ASKPASS_REQUIRE = "prefer";
-    };
-  };
 }

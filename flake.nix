@@ -10,18 +10,29 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Secrets decrypted at activation time, never at evaluation time.
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    { nixpkgs, home-manager, ... }:
+    {
+      nixpkgs,
+      home-manager,
+      sops-nix,
+      ...
+    }:
     let
-      # Shared args: a module gets these by declaring `{ profile, ... }:`.
-      profile = import ./user { };
       color = import ./config/color.nix { };
       theme = import ./config/theme.nix { };
       alias = import ./config/abbr.nix { };
 
-      specialArgs = {
+      # Shared args: a module gets these by declaring `{ profile, ... }:`.
+      # Each machine passes its own profile, everything else is common.
+      mkSpecialArgs = profile: {
         inherit
           profile
           color
@@ -30,12 +41,15 @@
           ;
       };
 
-      # One machine per hosts/<name> directory.
+      # A NixOS machine: one per hosts/<name> directory.
       mkHost =
         hostname:
+        let
+          profile = import ./user { };
+        in
         nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          inherit specialArgs;
+          specialArgs = mkSpecialArgs profile;
           modules = [
             ./hosts/${hostname} # hardware, hostname, stateVersion
             ./nixos # shared system config
@@ -47,10 +61,31 @@
                 # Move files already in $HOME aside instead of failing the activation.
                 backupFileExtension = "hm-backup";
                 users.${profile.name} = import ./home;
-                extraSpecialArgs = specialArgs;
+                extraSpecialArgs = mkSpecialArgs profile;
               };
             }
           ];
+        };
+
+      # home-manager on its own, for machines that are not NixOS. Only the user
+      # half is declarative there; the system stays the distro's business.
+      mkHome =
+        {
+          system,
+          profile,
+          modules,
+        }:
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
+          };
+          extraSpecialArgs = mkSpecialArgs profile;
+          modules = [
+            sops-nix.homeManagerModules.sops
+            ./home/standalone.nix
+          ]
+          ++ modules;
         };
     in
     {
@@ -58,6 +93,18 @@
       # (if the hostname already matches, --flake . is enough)
       nixosConfigurations = {
         um560 = mkHost "um560";
+      };
+
+      # home-manager switch --flake .#oscar@work
+      homeConfigurations = {
+        "oscar@work" = mkHome {
+          system = "x86_64-linux";
+          profile = import ./user/work.nix { };
+          modules = [
+            ./home/common.nix # CLI only for now
+            ./home/secrets.nix
+          ];
+        };
       };
     };
 }

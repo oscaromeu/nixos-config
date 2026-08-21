@@ -1,7 +1,6 @@
 { ... }:
 {
   imports = [
-    ./fish
-    ./qt
+    ./ssh-agent.nix
   ];
 }
