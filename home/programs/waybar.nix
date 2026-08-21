@@ -40,19 +40,7 @@
           "sway/workspaces" = {
             on-click = "activate";
             sort-by-number = true;
-            format = "{name} {icon}";
-            format-icons = {
-              "1" = "";
-              "2" = "";
-              "3" = "";
-              "4" = "";
-              "5" = "";
-              "6" = "";
-              "7" = "";
-              "8" = "";
-              "9" = "";
-              "10" = "";
-            };
+            format = "{name}";
           };
           "bluetooth" = {
             format-on = "On 󰂯";
@@ -91,49 +79,49 @@
             };
           };
           "cpu" = {
-            format = "{usage}% ";
+            format = "{usage}% 󰻠";
             tooltip = true;
           };
           "memory" = {
-            format = "{}% ";
+            format = "{}% 󰍛";
           };
           "temperature" = {
             critical-threshold = 80;
             format-critical = "{temperatureC}°C {icon}";
             format = "{temperatureC}°C {icon}";
             format-icons = [
-              ""
-              ""
-              ""
-              ""
+              "󱃃"
+              "󰔏"
+              "󱃂"
+              "󰸁"
             ];
           };
           "network" = {
-            format-wifi = "{signalStrength}% ";
-            format-ethernet = "{ipaddr}/{cidr} ";
-            tooltip-format = "{ifname} via {gwaddr} ";
-            format-linked = "{ifname} (No IP) ";
-            format-disconnected = "Off ";
-            format-alt = "{ifname} = {ipaddr}/{cidr} ";
+            format-wifi = "{signalStrength}% 󰖩";
+            format-ethernet = "{ipaddr}/{cidr} 󰌘";
+            tooltip-format = "{ifname} via {gwaddr} 󰌘";
+            format-linked = "{ifname} (No IP) 󰌙";
+            format-disconnected = "Off 󰖪";
+            format-alt = "{ifname} = {ipaddr}/{cidr} 󰌘";
             interval = 2;
           };
           "pulseaudio" = {
             format = "{volume}% {icon}    {format_source}";
-            format-muted = "{volume}%     {format_source}";
+            format-muted = "{volume}% 󰖁    {format_source}";
             format-bluetooth = "{volume}% {icon}    󰂯 {format_source}";
-            format-bluetooth-muted = " {icon}    󰂯 {format_source}";
-            format-source = "{volume}% ";
-            format-source-muted = "{volume}% ";
+            format-bluetooth-muted = "󰖁 {icon}    󰂯 {format_source}";
+            format-source = "{volume}% 󰍬";
+            format-source-muted = "{volume}% 󰍭";
             format-icons = {
-              headphone = "";
-              hands-free = "";
-              headset = "";
-              phone = "";
-              portable = "";
-              car = "";
+              headphone = "󰋋";
+              hands-free = "󰋎";
+              headset = "󰋎";
+              phone = "󰄜";
+              portable = "󰄜";
+              car = "󰄋";
               default = [
-                ""
-                ""
+                "󰖀"
+                "󰕾"
               ];
             };
           };
