@@ -43,11 +43,9 @@ in
         enable = true;
         config = {
           modifier = "${mod4}";
-          bars = [
-            {
-              command = "${waybar}/bin/waybar";
-            }
-          ];
+          # waybar runs as a user service instead, so systemd restarts it
+          # if it dies: see home/programs/waybar.nix
+          bars = [ ];
           focus = {
             forceWrapping = false;
             followMouse = false;

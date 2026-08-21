@@ -19,4 +19,7 @@
 
     shellAliases = alias.abbr;
   };
+
+  # Restart the user services whose unit changed, instead of only warning about it.
+  systemd.user.startServices = "sd-switch";
 }

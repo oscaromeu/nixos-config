@@ -8,6 +8,13 @@
   programs = {
     waybar = {
       enable = true;
+
+      # Tied to the sway session, and restarted on its own if it crashes.
+      systemd = {
+        enable = true;
+        target = "sway-session.target";
+      };
+
       settings = {
         mainBar = {
           layer = "bottom";
