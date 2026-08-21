@@ -82,6 +82,10 @@
             format = " {}%";
           };
           "temperature" = {
+            # This box has no thermal zones, so read the Ryzen sensor directly.
+            # hwmon-path-abs also takes a list, to share one config across machines.
+            hwmon-path-abs = "/sys/devices/pci0000:00/0000:00:18.3/hwmon";
+            input-filename = "temp1_input";
             critical-threshold = 80;
             format-critical = "{icon} {temperatureC}°C";
             format = "{icon} {temperatureC}°C";
