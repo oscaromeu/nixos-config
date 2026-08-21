@@ -14,10 +14,6 @@
           position = "top";
           height = 30;
           spacing = 6;
-          # margins are what make the bar float
-          margin-top = 6;
-          margin-left = 12;
-          margin-right = 12;
           modules-left = [
             "sway/workspaces"
             "sway/mode"
@@ -134,23 +130,15 @@
           min-height: 0;
         }
 
-        /* The window is transparent; what shows are the three islands */
+        /* One solid bar along the whole top edge */
         window#waybar {
-          background: transparent;
+          background-color: ${color.h_background};
           color: ${color.h_foreground};
+          border-bottom: 1px solid ${color.h_black};
         }
 
         window#waybar.hidden {
           opacity: 0.2;
-        }
-
-        .modules-left,
-        .modules-center,
-        .modules-right {
-          background-color: ${color.h_background};
-          border: 1px solid ${color.h_black};
-          border-radius: 14px;
-          padding: 0 4px;
         }
 
         button {
