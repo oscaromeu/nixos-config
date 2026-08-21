@@ -196,7 +196,7 @@
         }
 
         #workspaces button.focused {
-          background-color: ${color.h_blue};
+          background-color: ${color.h_bright_yellow};
           color: ${color.h_background};
         }
 
