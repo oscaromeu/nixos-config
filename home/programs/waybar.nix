@@ -37,6 +37,16 @@
             on-click = "activate";
             sort-by-number = true;
             format = "{name}";
+            # Always show 1 to 7; an empty list means every output
+            persistent-workspaces = {
+              "1" = [ ];
+              "2" = [ ];
+              "3" = [ ];
+              "4" = [ ];
+              "5" = [ ];
+              "6" = [ ];
+              "7" = [ ];
+            };
           };
           "bluetooth" = {
             format-on = "󰂯 On";
@@ -166,6 +176,10 @@
           color: ${color.h_foreground_muted};
           background: transparent;
           transition: background-color 0.2s ease;
+        }
+
+        #workspaces button.empty {
+          color: ${color.h_bright_black};
         }
 
         #workspaces button:hover {

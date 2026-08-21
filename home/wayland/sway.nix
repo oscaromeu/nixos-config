@@ -127,10 +127,6 @@ in
             ];
           };
           assigns = {
-            "1" = [
-              { app_id = "foot"; }
-              { app_id = "kitty"; }
-            ];
             "2" = [
               { app_id = "firefox"; }
             ];
