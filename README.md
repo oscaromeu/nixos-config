@@ -18,7 +18,7 @@ _Declarative configuration for my NixOS machines — a Sway desktop built with f
 
 ## Overview
 
-One flake, one entry per machine. `hosts/` holds whatever changes between machines and everything else is shared. My data lives in a single file, `user/default.nix`, and reaches every module as the `profile` argument, so it is never spread around.
+One flake, one entry per machine. `hosts/` holds whatever changes between machines and everything else is shared. My data lives in one file per machine under `user/`, and reaches every module as the `profile` argument, so it is never spread around.
 
 ```
 flake.nix    # inputs (nixpkgs, home-manager) and one entry per machine
@@ -35,6 +35,13 @@ asset/       # wallpapers
 | Host | Hardware | Installed |
 | --- | --- | --- |
 | `um560` | Minisforum UM560 XT — Ryzen 5 5600H, AMD iGPU, 32 GB RAM | 26.05 |
+
+Machines that are not NixOS get the terminal half through standalone home-manager — the system underneath stays the distro's business:
+
+| Entry | Machine | Runs |
+| --- | --- | --- |
+| `oscar@work` | Work laptop — Ubuntu 24.04, x86_64 | `home/common.nix` + `home/work.nix` |
+| `oscar@rkw2` | NAS — Turing RK1, Ubuntu Rockchip, aarch64 | `home/common.nix` |
 
 ## Day to day
 

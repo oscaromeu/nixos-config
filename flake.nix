@@ -107,6 +107,15 @@
             ./home/work.nix
           ];
         };
+
+        # user@hostname matches, so a bare `home-manager switch --flake .` works there.
+        "oscar@rkw2" = mkHome {
+          system = "aarch64-linux";
+          profile = import ./user/rkw2.nix { };
+          modules = [
+            ./home/common.nix # a headless box only gets the CLI half
+          ];
+        };
       };
     };
 }
