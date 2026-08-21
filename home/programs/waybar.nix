@@ -151,11 +151,11 @@
           min-height: 0;
         }
 
-        /* One solid bar along the whole top edge */
+        /* Translucent, so the wallpaper shows through. 0.85 keeps the text
+           readable over a bright photo; lower it for more see-through. */
         window#waybar {
-          background-color: ${color.h_background};
+          background-color: rgba(${color.v_background}, 0.85);
           color: ${color.h_foreground};
-          border-bottom: 1px solid ${color.h_black};
         }
 
         window#waybar.hidden {
@@ -186,7 +186,7 @@
         }
 
         #workspaces button.empty {
-          color: ${color.h_bright_black};
+          opacity: 0.45;
         }
 
         #workspaces button:hover {

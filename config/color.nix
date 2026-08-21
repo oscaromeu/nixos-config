@@ -240,6 +240,9 @@ in
   inherit error;
   inherit link;
 
+  # rgb triplet, to compose an rgba with an alpha other than the two above
+  inherit v_background;
+
   inherit h_background;
   inherit h_background_alt;
   inherit h_foreground;
