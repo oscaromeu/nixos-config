@@ -39,10 +39,10 @@
             format = "{name}";
           };
           "bluetooth" = {
-            format-on = "On 󰂯";
-            format-off = "Off 󰂲";
+            format-on = "󰂯 On";
+            format-off = "󰂲 Off";
             format-disabled = "󰂲";
-            format-connected = "{num_connections} pair 󰂱";
+            format-connected = "󰂱 {num_connections} pair";
             tooltip-format = "{controller_alias}\t{controller_address}";
             tooltip-format-connected = "{controller_alias}\t{controller_address}\n\n{device_enumerate}";
             tooltip-format-enumerate-connected = "{device_alias}\t{device_address}";
@@ -75,16 +75,16 @@
             };
           };
           "cpu" = {
-            format = "{usage}% 󰻠";
+            format = "󰻠 {usage}%";
             tooltip = true;
           };
           "memory" = {
-            format = "{}% 󰍛";
+            format = " {}%";
           };
           "temperature" = {
             critical-threshold = 80;
-            format-critical = "{temperatureC}°C {icon}";
-            format = "{temperatureC}°C {icon}";
+            format-critical = "{icon} {temperatureC}°C";
+            format = "{icon} {temperatureC}°C";
             format-icons = [
               "󱃃"
               "󰔏"
@@ -93,21 +93,21 @@
             ];
           };
           "network" = {
-            format-wifi = "{signalStrength}% 󰖩";
-            format-ethernet = "{ipaddr}/{cidr} 󰌘";
-            tooltip-format = "{ifname} via {gwaddr} 󰌘";
-            format-linked = "{ifname} (No IP) 󰌙";
-            format-disconnected = "Off 󰖪";
-            format-alt = "{ifname} = {ipaddr}/{cidr} 󰌘";
+            format-wifi = "󰖩 {signalStrength}%";
+            format-ethernet = "󰌘 {ipaddr}/{cidr}";
+            tooltip-format = "󰌘 {ifname} via {gwaddr}";
+            format-linked = "󰌙 {ifname} (No IP)";
+            format-disconnected = "󰖪 Off";
+            format-alt = "󰌘 {ifname} = {ipaddr}/{cidr}";
             interval = 2;
           };
           "pulseaudio" = {
-            format = "{volume}% {icon}    {format_source}";
-            format-muted = "{volume}% 󰖁    {format_source}";
-            format-bluetooth = "{volume}% {icon}    󰂯 {format_source}";
-            format-bluetooth-muted = "󰖁 {icon}    󰂯 {format_source}";
-            format-source = "{volume}% 󰍬";
-            format-source-muted = "{volume}% 󰍭";
+            format = "{icon} {volume}%  {format_source}";
+            format-muted = "󰖁 {volume}%  {format_source}";
+            format-bluetooth = "{icon} {volume}%  󰂯 {format_source}";
+            format-bluetooth-muted = "󰖁 {icon}  󰂯 {format_source}";
+            format-source = "󰍬";
+            format-source-muted = "󰍭";
             format-icons = {
               headphone = "󰋋";
               hands-free = "󰋎";
@@ -139,6 +139,15 @@
 
         window#waybar.hidden {
           opacity: 0.2;
+        }
+
+        /* Keep the first and last module off the screen edges */
+        .modules-left {
+          padding-left: 6px;
+        }
+
+        .modules-right {
+          padding-right: 6px;
         }
 
         button {
