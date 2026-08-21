@@ -103,6 +103,7 @@
           modules = [
             ./home/common.nix # CLI only for now
             ./home/secrets.nix
+            ./home/work.nix
           ];
         };
       };
