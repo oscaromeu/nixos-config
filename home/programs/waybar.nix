@@ -19,7 +19,7 @@
         mainBar = {
           layer = "bottom";
           position = "top";
-          height = 24;
+          height = 28;
           spacing = 6;
           modules-left = [
             "sway/workspaces"
@@ -183,7 +183,7 @@
         #workspaces button {
           margin: 3px 2px;
           padding: 0 10px;
-          border-radius: 10px;
+          border-radius: 11px;
           color: ${color.h_foreground_muted};
           background: transparent;
           transition: background-color 0.2s ease;
@@ -213,7 +213,7 @@
         #mode {
           margin: 3px 2px;
           padding: 0 10px;
-          border-radius: 10px;
+          border-radius: 11px;
           background-color: ${color.h_yellow};
           color: ${color.h_background};
         }
@@ -256,7 +256,7 @@
         #temperature.critical {
           margin: 3px 2px;
           padding: 0 10px;
-          border-radius: 10px;
+          border-radius: 11px;
           background-color: ${color.h_red};
           color: ${color.h_background};
         }
