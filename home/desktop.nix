@@ -3,7 +3,6 @@
 { ... }:
 {
   imports = [
-    ./config/nmdm
     ./config/qt
     ./fonts
     ./packages/desktop.nix
