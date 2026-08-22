@@ -24,7 +24,7 @@
 
       # formatters (conform.nvim)
       gotools # goimports
-      nixfmt-rfc-style
+      nixfmt
       stylua
     ];
 
@@ -64,7 +64,7 @@
     ];
 
     # Palette first, then each .lua in this order.
-    extraLuaConfig =
+    initLua =
       ''
         -- Breeze Dark palette injected from config/color.nix — do not edit here
         _G.breeze = {

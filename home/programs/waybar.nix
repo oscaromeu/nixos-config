@@ -12,7 +12,7 @@
       # Tied to the sway session, and restarted on its own if it crashes.
       systemd = {
         enable = true;
-        target = "sway-session.target";
+        targets = [ "sway-session.target" ];
       };
 
       settings = {
