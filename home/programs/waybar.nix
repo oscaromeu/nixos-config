@@ -99,9 +99,13 @@
             format = " {}%";
           };
           "temperature" = {
-            # This box has no thermal zones, so read the Ryzen sensor directly.
-            # hwmon-path-abs also takes a list, to share one config across machines.
-            hwmon-path-abs = "/sys/devices/pci0000:00/0000:00:18.3/hwmon";
+            # Neither box uses thermal_zone0: the um560 has no thermal zones at
+            # all, and on the laptop it is not the CPU. waybar walks the list and
+            # takes the first path that exists, so one config covers both.
+            hwmon-path-abs = [
+              "/sys/devices/pci0000:00/0000:00:18.3/hwmon" # um560, Ryzen k10temp
+              "/sys/devices/platform/coretemp.0/hwmon" # thinkpad, Intel coretemp
+            ];
             input-filename = "temp1_input";
             critical-threshold = 80;
             format-critical = "{icon} {temperatureC}°C";
