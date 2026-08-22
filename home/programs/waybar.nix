@@ -1,9 +1,87 @@
 # Adapted from swayhome, with a battery module for the laptop; no mpd.
 {
   color,
+  pkgs,
   theme,
   ...
 }:
+let
+
+  # The distro owns tailscale on the work laptop, so look for it rather than
+  # taking it from nix. Machines without it render nothing.
+  find = ''
+    ts=""
+    for c in /usr/bin/tailscale /run/current-system/sw/bin/tailscale "$HOME/.nix-profile/bin/tailscale"; do
+      [ -x "$c" ] && ts="$c" && break
+    done
+  '';
+
+  status = pkgs.writeShellScript "waybar-tailscale-status" (find + ''
+    [ -n "$ts" ] || { printf '{"text":""}\n'; exit 0; }
+    json=$("$ts" status --json 2>/dev/null) || {
+      printf '{"text":"󰦞","class":"off","tooltip":"tailscale sin respuesta"}\n'
+      exit 0
+    }
+    state=$(printf '%s' "$json" | ${pkgs.jq}/bin/jq -r '.BackendState')
+    node=$(printf '%s' "$json" | ${pkgs.jq}/bin/jq -r '[.Peer[]? | select(.ExitNode == true) | .HostName] | first // ""')
+    if [ "$state" != "Running" ]; then
+      printf '{"text":"󰦞","class":"off","tooltip":"tailscale: %s"}\n' "$state"
+    elif [ -n "$node" ]; then
+      printf '{"text":"󰖂 %s","class":"exit","tooltip":"saliendo por %s"}\n' "$node" "$node"
+    else
+      printf '{"text":"󰕥","class":"up","tooltip":"tailscale conectado, salida directa"}\n'
+    fi
+  '');
+
+  # The distro owns NetworkManager too, and the connection only exists where
+  # the sops secret put its config.
+  findNm = ''
+    nm=""
+    for c in /usr/bin/nmcli /run/current-system/sw/bin/nmcli; do
+      [ -x "$c" ] && nm="$c" && break
+    done
+  '';
+
+  vpnStatus = pkgs.writeShellScript "waybar-vpn-status" (findNm + ''
+    [ -n "$nm" ] || { printf '{"text":""}\n'; exit 0; }
+    "$nm" -t -f NAME connection show 2>/dev/null | grep -qx casa || { printf '{"text":""}\n'; exit 0; }
+    if "$nm" -t -f NAME,STATE connection show --active 2>/dev/null | grep -qx 'casa:activated'; then
+      printf '{"text":"󰚊","class":"up","tooltip":"vpn de casa levantada"}\n'
+    else
+      printf '{"text":"󰚊","class":"off","tooltip":"vpn de casa parada"}\n'
+    fi
+  '');
+
+  vpnToggle = pkgs.writeShellScript "waybar-vpn-toggle" (findNm + ''
+    [ -n "$nm" ] || exit 0
+    if "$nm" -t -f NAME,STATE connection show --active 2>/dev/null | grep -qx 'casa:activated'; then
+      "$nm" connection down casa
+    else
+      # Bringing it up from inside the home LAN sends that subnet into a tunnel
+      # whose endpoint is unreachable from there, cutting the machine off.
+      if ${pkgs.iproute2}/bin/ip -4 -o addr show | grep -q ' 10\.69\.1\.'; then
+        ${pkgs.libnotify}/bin/notify-send 'VPN de casa' 'Ya estas en la red de casa: levantarla te dejaria sin LAN.'
+        exit 0
+      fi
+      "$nm" connection up casa
+    fi
+    ${pkgs.procps}/bin/pkill -SIGRTMIN+9 waybar
+  '');
+
+  menu = pkgs.writeShellScript "waybar-tailscale-menu" (find + ''
+    [ -n "$ts" ] || exit 0
+    nodes=$("$ts" exit-node list 2>/dev/null | ${pkgs.gawk}/bin/awk '$1 ~ /^100\./ { print $2 }')
+    choice=$(printf 'ninguno\n%s\n' "$nodes" | ${pkgs.rofi}/bin/rofi -dmenu -i -p salida)
+    [ -n "$choice" ] || exit 0
+    if [ "$choice" = "ninguno" ]; then
+      "$ts" set --exit-node=
+    else
+      "$ts" set --exit-node="$choice" --exit-node-allow-lan-access
+    fi
+    ${pkgs.procps}/bin/pkill -SIGRTMIN+8 waybar
+  '');
+
+in
 {
   programs = {
     waybar = {
@@ -34,6 +112,8 @@
             "temperature"
             "bluetooth"
             "network"
+            "custom/tailscale"
+            "custom/vpn"
             "pulseaudio"
             "battery"
             "tray"
@@ -47,6 +127,20 @@
             format-charging = "󰂄 {capacity}%";
             format-critical = "󰂃 {capacity}%";
             format-icons = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
+          };
+          "custom/vpn" = {
+            exec = "${vpnStatus}";
+            return-type = "json";
+            interval = 15;
+            signal = 9;
+            on-click = "${vpnToggle}";
+          };
+          "custom/tailscale" = {
+            exec = "${status}";
+            return-type = "json";
+            interval = 15;
+            signal = 8;
+            on-click = "${menu}";
           };
           "sway/mode" = {
             format = "<span style=\"italic\">{}</span>";
@@ -234,6 +328,8 @@
         #cpu,
         #memory,
         #battery,
+        #custom-tailscale,
+        #custom-vpn,
         #network,
         #pulseaudio,
         #temperature,
@@ -266,6 +362,22 @@
         }
         #battery {
           color: ${color.h_bright_white};
+        }
+        #custom-tailscale {
+          color: ${color.h_cyan};
+        }
+        #custom-tailscale.off {
+          color: ${color.h_bright_black};
+        }
+        #custom-vpn {
+          color: ${color.h_green};
+        }
+        #custom-vpn.off {
+          color: ${color.h_bright_black};
+        }
+        #custom-tailscale.exit {
+          color: ${color.h_bright_purple};
+          font-weight: bold;
         }
         #battery.warning {
           color: ${color.h_bright_yellow};
