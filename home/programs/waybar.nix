@@ -223,6 +223,7 @@ in
             ];
           };
           "network" = {
+            on-click = "${pkgs.networkmanager_dmenu}/bin/networkmanager_dmenu";
             format-wifi = "󰖩 {signalStrength}%";
             format-ethernet = "󰌘 {ipaddr}/{cidr}";
             tooltip-format = "󰌘 {ifname} via {gwaddr}";
