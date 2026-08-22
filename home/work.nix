@@ -1,6 +1,6 @@
 # Tooling for the day job. Only the work profile imports this — the NixOS
 # desktop has no business carrying gcloud or terragrunt.
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 with pkgs;
 let
 
@@ -24,6 +24,16 @@ let
 
 in
 {
+  # The tunnel itself is system layer, so only its config comes from here.
+  sops = {
+    secrets = {
+      "wg-casa" = {
+        path = "${config.home.homeDirectory}/.config/wireguard/casa.conf";
+        mode = "0600";
+      };
+    };
+  };
+
   # Version pinning per repo when nixpkgs' version is not the one the team uses.
   programs = {
     mise = {

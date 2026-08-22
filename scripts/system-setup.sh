@@ -13,6 +13,12 @@ set -euo pipefail
 profile="$HOME/.nix-profile"
 changed=0
 
+# Only reached when the sops secret for the tunnel is present.
+vpn_conf="$HOME/.config/wireguard/casa.conf"
+vpn_name="casa"
+vpn_dns="10.69.1.1"
+vpn_domain="~oscaromeu.io"
+
 # Running before the installer would create a nix.conf holding only the line
 # below, without the build-users-group the installer puts there.
 if [ ! -d "$profile" ] || [ ! -x /nix/var/nix/profiles/default/bin/nix ]; then
@@ -102,5 +108,19 @@ write_file /etc/pam.d/swaylock 0644 <<'EOF'
 #%PAM-1.0
 auth required pam_unix.so
 EOF
+
+if [ -e "$vpn_conf" ]; then
+  step "home vpn"
+  if nmcli -t -f NAME connection show | grep -qx "$vpn_name"; then
+    echo "already imported: $vpn_name"
+  else
+    sudo nmcli connection import type wireguard file "$vpn_conf"
+  fi
+  # Split DNS: the routing domain wins over whatever else claims every name.
+  sudo nmcli connection modify "$vpn_name" ipv4.dns "$vpn_dns"
+  sudo nmcli connection modify "$vpn_name" ipv4.dns-search "$vpn_domain"
+  sudo nmcli connection modify "$vpn_name" ipv4.never-default yes
+  sudo nmcli connection modify "$vpn_name" connection.autoconnect no
+fi
 
 step "done — log out and pick the Sway session"
