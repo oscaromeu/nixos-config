@@ -13,26 +13,32 @@
     ./xdg
   ];
 
-  home = {
-    sessionVariables = {
-      XDG_CURRENT_DESKTOP = "sway";
-      XDG_SESSION_DESKTOP = "sway";
-      XDG_SESSION_TYPE = "wayland";
+  # Every wayland user service hangs off sway's own target rather than the
+  # generic graphical-session one, which GNOME also reaches. Read by 35 of the
+  # home-manager modules, cliphist and wpaperd among them.
+  wayland.systemd.target = "sway-session.target";
 
-      # Native Wayland for the apps that need telling
-      MOZ_ENABLE_WAYLAND = "1";
-      MOZ_USE_XINPUT2 = "1";
-      NIXOS_OZONE_WL = "1"; # electron/chromium
-      QT_QPA_PLATFORM = "wayland";
-      QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-      SDL_VIDEODRIVER = "wayland";
+  # Exported by sway's own wrapper rather than by home.sessionVariables: those
+  # reach every login, so on a machine that also runs GNOME they would tell its
+  # portals they are on sway.
+  wayland.windowManager.sway.extraSessionCommands = ''
+    export XDG_CURRENT_DESKTOP=sway
+    export XDG_SESSION_DESKTOP=sway
+    export XDG_SESSION_TYPE=wayland
 
-      GTK_THEME = "Breeze-Dark";
+    # Native Wayland for the apps that need telling
+    export MOZ_ENABLE_WAYLAND=1
+    export MOZ_USE_XINPUT2=1
+    export NIXOS_OZONE_WL=1 # electron/chromium
+    export QT_QPA_PLATFORM=wayland
+    export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+    export SDL_VIDEODRIVER=wayland
 
-      # Java: avoids grey windows on tiling WMs
-      _JAVA_AWT_WM_NONREPARENTING = 1;
+    export GTK_THEME=Breeze-Dark
 
-      SSH_ASKPASS_REQUIRE = "prefer";
-    };
-  };
+    # Java: avoids grey windows on tiling WMs
+    export _JAVA_AWT_WM_NONREPARENTING=1
+
+    export SSH_ASKPASS_REQUIRE=prefer
+  '';
 }

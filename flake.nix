@@ -103,7 +103,8 @@
           system = "x86_64-linux";
           profile = import ./user/work.nix { };
           modules = [
-            ./home/common.nix # CLI only for now
+            ./home/common.nix
+            ./home/desktop.nix # sway alongside the distro's GNOME
             ./home/work.nix
           ];
         };
