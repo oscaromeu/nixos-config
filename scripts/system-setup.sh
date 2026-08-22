@@ -13,6 +13,13 @@ set -euo pipefail
 profile="$HOME/.nix-profile"
 changed=0
 
+# Running before the installer would create a nix.conf holding only the line
+# below, without the build-users-group the installer puts there.
+if [ ! -d "$profile" ] || [ ! -x /nix/var/nix/profiles/default/bin/nix ]; then
+  echo "install nix and run a first home-manager switch before this" >&2
+  exit 1
+fi
+
 step() { printf '\n== %s\n' "$1"; }
 
 ensure_line() {
