@@ -57,6 +57,14 @@ in
           gaps = {
             inner = 20;
           };
+          # Keyed by output name, so each machine only matches its own entry and
+          # both can live here. The laptop panel is ~162 dpi against the um560's
+          # ~82, so it scales up; the desktop needs nothing.
+          output = {
+            "eDP-1" = {
+              scale = "1.25";
+            };
+          };
           startup = [
             { command = "${kitty}/bin/kitty"; }
           ];
