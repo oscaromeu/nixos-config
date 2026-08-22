@@ -10,7 +10,6 @@
     ./services/desktop.nix
     ./themes
     ./wayland
-    ./xdg
   ];
 
   # Every wayland user service hangs off sway's own target rather than the

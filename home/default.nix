@@ -12,5 +12,10 @@
     # reaches too.
     ./services/gnome-keyring.nix
     ./services/udiskie.nix
+
+    # XDG user dirs and mime associations are session-wide, not sway's. On the
+    # work laptop they would repoint GNOME's folders at empty ones and send its
+    # PDFs to zathura, so that profile keeps the distro's.
+    ./xdg
   ];
 }
