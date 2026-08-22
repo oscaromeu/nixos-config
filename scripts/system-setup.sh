@@ -109,6 +109,13 @@ write_file /etc/pam.d/swaylock 0644 <<'EOF'
 auth required pam_unix.so
 EOF
 
+# Changing prefs is checked against the caller, not the socket mode, so the
+# waybar exit-node menu needs this once or it fails with an access denial.
+if command -v tailscale >/dev/null 2>&1; then
+  step "let this user drive tailscale"
+  sudo tailscale set --operator="$USER"
+fi
+
 if [ -e "$vpn_conf" ]; then
   step "home vpn"
   if nmcli -t -f NAME connection show | grep -qx "$vpn_name"; then
