@@ -1,4 +1,5 @@
-# Adapted from swayhome for a desktop: no brightness or battery bindings.
+# Adapted from swayhome. Brightness works through logind, so it needs no
+# udev rule on machines where the sysfs file belongs to root.
 {
   lib,
   pkgs,
@@ -230,6 +231,9 @@ in
             "XF86AudioPrev" = "exec ${playerctl}/bin/playerctl previous --player=%any,mpv";
             "XF86AudioNext" = "exec ${playerctl}/bin/playerctl next --player=%any,mpv";
             "XF86AudioStop" = "exec ${playerctl}/bin/playerctl play-pause --player=%any,mpv";
+
+            "XF86MonBrightnessUp" = "exec ${brightnessctl}/bin/brightnessctl set +5%";
+            "XF86MonBrightnessDown" = "exec ${brightnessctl}/bin/brightnessctl set 5%-";
           };
           colors = {
             background = window_bg_color;

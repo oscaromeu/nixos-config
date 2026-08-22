@@ -1,4 +1,4 @@
-# Adapted from swayhome for a desktop: no battery, brightness or mpd modules.
+# Adapted from swayhome, with a battery module for the laptop; no mpd.
 {
   color,
   theme,
@@ -35,8 +35,19 @@
             "bluetooth"
             "network"
             "pulseaudio"
+            "battery"
             "tray"
           ];
+          battery = {
+            states = {
+              warning = 30;
+              critical = 15;
+            };
+            format = "{icon} {capacity}%";
+            format-charging = "󰂄 {capacity}%";
+            format-critical = "󰂃 {capacity}%";
+            format-icons = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
+          };
           "sway/mode" = {
             format = "<span style=\"italic\">{}</span>";
           };
@@ -222,6 +233,7 @@
         #clock,
         #cpu,
         #memory,
+        #battery,
         #network,
         #pulseaudio,
         #temperature,
@@ -252,7 +264,14 @@
         #pulseaudio {
           color: ${color.h_bright_green};
         }
+        #battery {
+          color: ${color.h_bright_white};
+        }
+        #battery.warning {
+          color: ${color.h_bright_yellow};
+        }
 
+        #battery.critical,
         #temperature.critical {
           margin: 3px 2px;
           padding: 0 10px;
