@@ -17,10 +17,10 @@ let
   font-emoji = "Twitter Color Emoji";
   font-size = 10;
   font-size-alt = 14;
-  # The bar is its own case: 24px tall leaves no room for 14.
-  font-size-bar = 12;
+  # The bar is its own case: at 28px tall, 14 crowds the pills.
+  font-size-bar = 13;
   # Terminals only, so bumping them leaves rofi, mako and the titlebars alone.
-  font-size-term = 13;
+  font-size-term = 16;
 
 in
 {
