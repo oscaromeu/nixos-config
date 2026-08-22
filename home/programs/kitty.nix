@@ -11,7 +11,7 @@
         bold_font = "auto";
         bold_italic_font = "auto";
         font_family = "${theme.font-mono}";
-        font_size = theme.font-size;
+        font_size = theme.font-size-term;
         italic_font = "auto";
 
         enable_audio_bell = false;

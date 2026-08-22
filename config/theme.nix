@@ -19,6 +19,8 @@ let
   font-size-alt = 14;
   # The bar is its own case: 24px tall leaves no room for 14.
   font-size-bar = 12;
+  # Terminals only, so bumping them leaves rofi, mako and the titlebars alone.
+  font-size-term = 14;
 
 in
 {
@@ -38,4 +40,5 @@ in
   inherit font-size;
   inherit font-size-alt;
   inherit font-size-bar;
+  inherit font-size-term;
 }

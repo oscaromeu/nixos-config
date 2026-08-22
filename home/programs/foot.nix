@@ -10,7 +10,7 @@
       enable = true;
       settings = {
         main = {
-          font = "${theme.font-mono}:size=${toString theme.font-size}";
+          font = "${theme.font-mono}:size=${toString theme.font-size-term}";
           dpi-aware = "no";
           pad = "15x15 center";
         };
