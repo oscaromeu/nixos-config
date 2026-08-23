@@ -28,7 +28,7 @@
             "gfx.webrender.all" = true;
             # Firefox lays out at this ratio itself, which draws text at
             # native resolution instead of letting the compositor stretch it.
-            "layout.css.devPixelsPerPx" = "1.25";
+            "layout.css.devPixelsPerPx" = "1.35";
             "media.ffmpeg.vaapi.enabled" = true;
             "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
           };
