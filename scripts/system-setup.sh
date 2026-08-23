@@ -13,8 +13,11 @@ set -euo pipefail
 profile="$HOME/.nix-profile"
 changed=0
 
-# Only reached when the sops secret for the tunnel is present.
-vpn_conf="$HOME/.config/wireguard/casa.conf"
+# Only reached when the sops secrets for the tunnel are present. OpenVPN and
+# not wireguard: the UDM's wireguard server never instantiates (nothing in
+# `wg show` even after recreating it), while its openvpn server is proven.
+vpn_conf="$HOME/.config/openvpn/casa.ovpn"
+vpn_auth="$HOME/.config/openvpn/casa.auth"
 vpn_name="casa"
 vpn_dns="10.69.1.32"
 vpn_domain="~oscaromeu.io"
@@ -118,10 +121,24 @@ fi
 
 if [ -e "$vpn_conf" ]; then
   step "home vpn"
+  if [ ! -e /usr/lib/NetworkManager/VPN/nm-openvpn-service.name ] && command -v apt-get >/dev/null 2>&1; then
+    sudo apt-get install -y network-manager-openvpn
+  fi
+  # The dead wireguard attempt may still hold the name.
+  if nmcli -t -f NAME,TYPE connection show | grep -qx "$vpn_name:wireguard"; then
+    sudo nmcli connection delete "$vpn_name"
+  fi
   if nmcli -t -f NAME connection show | grep -qx "$vpn_name"; then
     echo "already imported: $vpn_name"
   else
-    sudo nmcli connection import type wireguard file "$vpn_conf"
+    sudo nmcli connection import type openvpn file "$vpn_conf"
+  fi
+  if [ -e "$vpn_auth" ]; then
+    vpn_user=$(sed -n 1p "$vpn_auth")
+    vpn_pass=$(sed -n 2p "$vpn_auth")
+    sudo nmcli connection modify "$vpn_name" vpn.user-name "$vpn_user"
+    sudo nmcli connection modify "$vpn_name" +vpn.data password-flags=0
+    sudo nmcli connection modify "$vpn_name" vpn.secrets "password=$vpn_pass"
   fi
   # Split DNS: the routing domain wins over whatever else claims every name.
   sudo nmcli connection modify "$vpn_name" ipv4.dns "$vpn_dns"

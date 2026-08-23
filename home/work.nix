@@ -31,6 +31,14 @@ in
         path = "${config.home.homeDirectory}/.config/wireguard/casa.conf";
         mode = "0600";
       };
+      "ovpn-casa" = {
+        path = "${config.home.homeDirectory}/.config/openvpn/casa.ovpn";
+        mode = "0600";
+      };
+      "ovpn-casa-auth" = {
+        path = "${config.home.homeDirectory}/.config/openvpn/casa.auth";
+        mode = "0600";
+      };
     };
   };
 
