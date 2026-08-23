@@ -15,7 +15,7 @@ let
   # font-awesome v7 moved the classic codepoints and left blank icons; this keeps them.
   font-symbol = "Symbols Nerd Font";
   font-emoji = "Twitter Color Emoji";
-  font-size = 10;
+  font-size = 12;
   font-size-alt = 14;
   # The bar is its own case: it has to match the size the apps render at.
   font-size-bar = 16;
