@@ -9,7 +9,6 @@ let
     (google-cloud-sdk.withExtraComponents [
       google-cloud-sdk.components.gke-gcloud-auth-plugin
     ])
-    kubernetes-helm
   ];
 
   iac = [

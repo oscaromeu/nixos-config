@@ -20,8 +20,17 @@ let
   ];
 
   devops = [
+    cue
+    fluxcd
+    go-task # task
+    helmfile
     k9s
+    kubeconform
     kubectl
+    kubernetes-helm
+    makejinja
+    talhelper
+    yq-go
   ];
 
 in
