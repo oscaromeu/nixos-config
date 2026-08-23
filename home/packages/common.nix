@@ -24,7 +24,6 @@ let
     fluxcd
     go-task # task
     helmfile
-    k9s
     kubeconform
     kubectl
     kubernetes-helm

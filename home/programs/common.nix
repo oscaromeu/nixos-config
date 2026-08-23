@@ -13,6 +13,7 @@
     ./go.nix
     ./helix.nix
     ./jq.nix
+    ./k9s.nix
     ./nvim
     ./tmux.nix
     ./yazi.nix
