@@ -150,4 +150,11 @@ if [ -e "$vpn_conf" ]; then
   sudo nmcli connection modify "$vpn_name" connection.autoconnect no
 fi
 
+# At home, tailscale's catch-all routing domain races the wifi's DHCP DNS for
+# the internal view; pinning the domain on the wifi profile settles it.
+if nmcli -t -f NAME connection show | grep -qx "Wifi Oscar"; then
+  step "internal view over the home wifi"
+  sudo nmcli connection modify "Wifi Oscar" ipv4.dns-search "$vpn_domain"
+fi
+
 step "done — log out and pick the Sway session"
