@@ -157,4 +157,23 @@ if nmcli -t -f NAME connection show | grep -qx "Wifi Oscar"; then
   sudo nmcli connection modify "Wifi Oscar" ipv4.dns-search "$vpn_domain"
 fi
 
+# Convention: one kubeconfig per cluster under ~/.kube/configs, named after
+# its context. Anything ending in -pro gets the amber k9s skin, so prod is
+# unmistakable. k9s owns these state files, hence seeded here and not by nix.
+step "k9s wears amber on prod"
+for f in "$HOME"/.kube/configs/*-pro.yaml; do
+  [ -e "$f" ] || continue
+  ctx=$(basename "$f" .yaml)
+  cluster=$(grep -m1 '  cluster:' "$f" | awk '{print $2}')
+  [ -n "$cluster" ] || continue
+  d="$HOME/.local/share/k9s/clusters/$cluster/$ctx"
+  mkdir -p "$d"
+  if [ -f "$d/config.yaml" ]; then
+    grep -q 'skin:' "$d/config.yaml" || sed -i 's/^k9s:/k9s:\n  skin: prod/' "$d/config.yaml"
+  else
+    printf 'k9s:\n  skin: prod\n  cluster: %s\n' "$cluster" > "$d/config.yaml"
+  fi
+  echo "amber: $ctx"
+done
+
 step "done — log out and pick the Sway session"
