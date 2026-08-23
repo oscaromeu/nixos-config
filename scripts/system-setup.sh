@@ -161,7 +161,7 @@ fi
 # its context. Anything ending in -pro gets the amber k9s skin, so prod is
 # unmistakable. k9s owns these state files, hence seeded here and not by nix.
 step "k9s wears amber on prod"
-for f in "$HOME"/.kube/configs/*-pro.yaml; do
+for f in "$HOME"/.kube/configs/*-pro.yaml "$HOME"/.kube/prod/*.yaml; do
   [ -e "$f" ] || continue
   ctx=$(basename "$f" .yaml)
   cluster=$(grep -m1 '  cluster:' "$f" | awk '{print $2}')

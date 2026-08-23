@@ -13,6 +13,11 @@ let
     m = "btm";
     da = "lsblk -o name,fstype,fsavail,fsused,size,mountpoint";
 
+    # kubernetes: prod lives outside the everyday KUBECONFIG on purpose,
+    # reached only through these
+    kp = "kubectl --kubeconfig ~/.kube/prod/flanks-pro.yaml";
+    k9sp = "env KUBECONFIG=$HOME/.kube/prod/flanks-pro.yaml k9s";
+
     # systemd
     ust = "systemctl --user start";
     usp = "systemctl --user stop";
