@@ -75,6 +75,13 @@ if [ ! -x "$profile/bin/sway" ]; then
   exit 0
 fi
 
+# flameshot and friends capture through the portal on wayland; the wlr
+# backend has to come from the distro, next to its running portal service.
+if [ ! -e /usr/libexec/xdg-desktop-portal-wlr ] && [ ! -e /usr/lib/xdg-desktop-portal-wlr ] && command -v apt-get >/dev/null 2>&1; then
+  step "wlroots portal for screenshots"
+  sudo apt-get install -y xdg-desktop-portal-wlr
+fi
+
 step "sway session wrapper"
 write_file /usr/local/bin/sway-nix 0755 <<'EOF'
 #!/bin/sh

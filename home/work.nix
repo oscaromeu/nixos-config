@@ -42,6 +42,12 @@ in
     };
   };
 
+  services = {
+    syncthing = {
+      enable = true;
+    };
+  };
+
   # Version pinning per repo when nixpkgs' version is not the one the team uses.
   programs = {
     mise = {
