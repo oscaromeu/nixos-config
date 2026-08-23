@@ -16,7 +16,7 @@ let
     # kubernetes: prod lives outside the everyday KUBECONFIG on purpose,
     # reached only through these
     kp = "kubectl --kubeconfig ~/.kube/prod/flanks-pro.yaml";
-    k9sp = "env KUBECONFIG=$HOME/.kube/prod/flanks-pro.yaml k9s";
+    k9sp = "env KUBECONFIG=(string join : $HOME/.kube/prod/*.yaml) k9s";
 
     # systemd
     ust = "systemctl --user start";
