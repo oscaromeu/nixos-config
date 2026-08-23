@@ -49,6 +49,14 @@ in
 
   # Version pinning per repo when nixpkgs' version is not the one the team uses.
   programs = {
+    # Prod lives outside the everyday KUBECONFIG on purpose, reached only
+    # through these. Work machine only: nothing else has ~/.kube/prod.
+    fish = {
+      shellAbbrs = {
+        kp = "kubectl --kubeconfig ~/.kube/prod/flanks-pro.yaml";
+        k9sp = "env KUBECONFIG=(string join : $HOME/.kube/prod/*.yaml) k9s";
+      };
+    };
     mise = {
       enable = true;
     };
