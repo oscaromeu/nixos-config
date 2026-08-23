@@ -112,6 +112,7 @@ in
             "temperature"
             "bluetooth"
             "network"
+            "custom/screenshot"
             "custom/tailscale"
             "custom/vpn"
             "pulseaudio"
@@ -127,6 +128,11 @@ in
             format-charging = "󰂄 {capacity}%";
             format-critical = "󰂃 {capacity}%";
             format-icons = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
+          };
+          "custom/screenshot" = {
+            format = "󰄀";
+            tooltip = false;
+            on-click = "${pkgs.flameshot}/bin/flameshot gui";
           };
           "custom/vpn" = {
             exec = "${vpnStatus}";
@@ -328,6 +334,7 @@ in
         #cpu,
         #memory,
         #battery,
+        #custom-screenshot,
         #custom-tailscale,
         #custom-vpn,
         #network,
@@ -368,6 +375,9 @@ in
         }
         #custom-tailscale.off {
           color: ${color.h_bright_black};
+        }
+        #custom-screenshot {
+          color: ${color.h_bright_cyan};
         }
         #custom-vpn {
           color: ${color.h_green};
