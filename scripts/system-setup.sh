@@ -133,6 +133,9 @@ if [ -e "$vpn_conf" ]; then
   else
     sudo nmcli connection import type openvpn file "$vpn_conf"
   fi
+  # The UniFi server speaks classic AES-256-CBC; a 2.6 client offers only the
+  # GCM family by default and the server answers "no shared cipher".
+  sudo nmcli connection modify "$vpn_name" +vpn.data "data-ciphers=AES-256-GCM:AES-128-GCM:CHACHA20-POLY1305:AES-256-CBC"
   if [ -e "$vpn_auth" ]; then
     vpn_user=$(sed -n 1p "$vpn_auth")
     vpn_pass=$(sed -n 2p "$vpn_auth")
