@@ -14,6 +14,7 @@
     ./helix.nix
     ./jq.nix
     ./nvim
+    ./tmux.nix
     ./yazi.nix
     ./zellij.nix
   ];
