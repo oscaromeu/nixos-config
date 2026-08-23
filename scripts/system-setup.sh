@@ -16,7 +16,7 @@ changed=0
 # Only reached when the sops secret for the tunnel is present.
 vpn_conf="$HOME/.config/wireguard/casa.conf"
 vpn_name="casa"
-vpn_dns="10.69.1.1"
+vpn_dns="10.69.1.32"
 vpn_domain="~oscaromeu.io"
 
 # Running before the installer would create a nix.conf holding only the line
