@@ -111,7 +111,6 @@ in
             "memory"
             "temperature"
             "bluetooth"
-            "network"
             "custom/screenshot"
             "custom/tailscale"
             "custom/vpn"
@@ -132,7 +131,7 @@ in
           "custom/screenshot" = {
             format = "󰄀";
             tooltip = false;
-            on-click = "${pkgs.flameshot}/bin/flameshot gui";
+            on-click = "PATH=${pkgs.grim}/bin:$PATH ${pkgs.flameshot}/bin/flameshot gui";
           };
           "custom/vpn" = {
             exec = "${vpnStatus}";
@@ -227,15 +226,6 @@ in
               "󱃂"
               "󰸁"
             ];
-          };
-          "network" = {
-            format-wifi = "󰖩 {signalStrength}%";
-            format-ethernet = "󰌘 {ipaddr}/{cidr}";
-            tooltip-format = "󰌘 {ifname} via {gwaddr}";
-            format-linked = "󰌙 {ifname} (No IP)";
-            format-disconnected = "󰖪 Off";
-            format-alt = "󰌘 {ifname} = {ipaddr}/{cidr}";
-            interval = 2;
           };
           "pulseaudio" = {
             format = "{icon} {volume}%  {format_source}";
@@ -337,7 +327,6 @@ in
         #custom-screenshot,
         #custom-tailscale,
         #custom-vpn,
-        #network,
         #pulseaudio,
         #temperature,
         #tray {
@@ -360,9 +349,6 @@ in
         }
         #bluetooth {
           color: ${color.h_blue};
-        }
-        #network {
-          color: ${color.h_bright_cyan};
         }
         #pulseaudio {
           color: ${color.h_bright_green};

@@ -3,6 +3,7 @@
   imports = [
     ./cava.nix # needs an audio server
     ./firefox.nix
+    ./flameshot.nix
     ./foot.nix
     ./imv.nix
     ./kitty.nix
