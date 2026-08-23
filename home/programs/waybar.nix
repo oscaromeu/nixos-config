@@ -68,6 +68,13 @@ let
     ${pkgs.procps}/bin/pkill -SIGRTMIN+9 waybar
   '');
 
+  # Region across any output, then annotate. flameshot misplaces its overlay
+  # with more than one monitor under wlroots; this stack is output-aware.
+  shot = pkgs.writeShellScript "waybar-screenshot" ''
+    region=$(${pkgs.slurp}/bin/slurp -d) || exit 0
+    ${pkgs.grim}/bin/grim -g "$region" - | ${pkgs.swappy}/bin/swappy -f -
+  '';
+
   menu = pkgs.writeShellScript "waybar-tailscale-menu" (find + ''
     [ -n "$ts" ] || exit 0
     nodes=$("$ts" exit-node list 2>/dev/null | ${pkgs.gawk}/bin/awk '$1 ~ /^100\./ { print $2 }')
@@ -131,7 +138,7 @@ in
           "custom/screenshot" = {
             format = "󰄀";
             tooltip = false;
-            on-click = "PATH=${pkgs.grim}/bin:$PATH ${pkgs.flameshot}/bin/flameshot gui";
+            on-click = "${shot}";
           };
           "custom/vpn" = {
             exec = "${vpnStatus}";
