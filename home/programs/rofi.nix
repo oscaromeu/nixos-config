@@ -10,7 +10,7 @@ with pkgs;
   programs = {
     rofi = {
       enable = true;
-      font = "${theme.font} ${toString theme.font-size}";
+      font = "${theme.font} ${toString theme.font-size-menu}";
       package = rofi;
       extraConfig = {
         case-sensitive = false;

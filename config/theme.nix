@@ -21,6 +21,8 @@ let
   font-size-bar = 16;
   # Terminals only, so bumping them leaves rofi, mako and the titlebars alone.
   font-size-term = 16;
+  # The launcher overlay reads from a distance the menus never are.
+  font-size-menu = 14;
 
 in
 {
@@ -41,4 +43,5 @@ in
   inherit font-size-alt;
   inherit font-size-bar;
   inherit font-size-term;
+  inherit font-size-menu;
 }
