@@ -7,7 +7,7 @@ let
   # nixos-config is public, so the email is not in here either. git picks it up
   # from ~/.config/git/identity on the machine — see home/programs/git.nix.
   email = null;
-  secrets = ../secrets/personal.sops.yaml;
+  secrets = ../../secrets/personal.sops.yaml;
 
   layout = "es";
   variant = "cat";

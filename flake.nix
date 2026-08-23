@@ -45,7 +45,7 @@
       mkHost =
         hostname:
         let
-          profile = import ./user { };
+          profile = import ./hosts/${hostname}/profile.nix { };
         in
         nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
@@ -101,7 +101,7 @@
       homeConfigurations = {
         "oscar@work" = mkHome {
           system = "x86_64-linux";
-          profile = import ./user/work.nix { };
+          profile = import ./hosts/work/profile.nix { };
           modules = [
             ./home/common.nix
             ./home/desktop.nix # sway alongside the distro's GNOME
@@ -112,7 +112,7 @@
         # user@hostname matches, so a bare `home-manager switch --flake .` works there.
         "oscar@rkw2" = mkHome {
           system = "aarch64-linux";
-          profile = import ./user/rkw2.nix { };
+          profile = import ./hosts/rkw2/profile.nix { };
           modules = [
             ./home/common.nix # a headless box only gets the CLI half
           ];

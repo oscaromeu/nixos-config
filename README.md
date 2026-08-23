@@ -18,12 +18,12 @@ _Declarative configuration for my NixOS machines — a Sway desktop built with f
 
 ## Overview
 
-One flake, one entry per machine. `hosts/` holds whatever changes between machines and everything else is shared. My data lives in one file per machine under `user/`, and reaches every module as the `profile` argument, so it is never spread around.
+One flake, one entry per machine. `hosts/` holds one directory per machine — the profile with my data, plus the NixOS half where the machine runs NixOS — and everything else is shared. The profile reaches every module as the `profile` argument, so it is never spread around.
 
 ```
 flake.nix    # inputs (nixpkgs, home-manager) and one entry per machine
-hosts/       # per machine: hostname, stateVersion, hardware-configuration.nix
-user/        # my profile: name, email, keyboard, timezone, SSH keys
+hosts/       # one directory per machine: profile.nix, plus hardware and
+             # stateVersion where the machine runs NixOS
 config/      # shared constants: colour palette, theme, shell abbreviations
 nixos/       # system config: programs, services, system, virtual
 home/        # user config via home-manager: sway, programs, services, themes, xdg
