@@ -24,11 +24,11 @@ let
     ssr = "sudo systemctl restart";
     sss = "sudo systemctl status";
 
-    # rebuilds; assumes the repo is cloned at ~/nixos-config
-    nrs = "sudo nixos-rebuild switch --flake ~/nixos-config";
-    nrb = "nixos-rebuild build --flake ~/nixos-config";
-    nrd = "sudo nixos-rebuild dry-activate --flake ~/nixos-config";
-    nfu = "nix flake update --flake ~/nixos-config";
+    # rebuilds; every machine keeps the clone at the same path
+    nrs = "sudo nixos-rebuild switch --flake ~/Documents/repos/gh/nixos-config";
+    nrb = "nixos-rebuild build --flake ~/Documents/repos/gh/nixos-config";
+    nrd = "sudo nixos-rebuild dry-activate --flake ~/Documents/repos/gh/nixos-config";
+    nfu = "nix flake update --flake ~/Documents/repos/gh/nixos-config";
 
     # generations and garbage collection
     slg = "sudo nix-env --list-generations -p /nix/var/nix/profiles/system";
