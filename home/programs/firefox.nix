@@ -25,6 +25,9 @@
             "browser.translations.automaticallyPopup" = false;
             "browser.warnOnQuit" = false;
             "devtools.theme" = "dark";
+            # Dark UI, and pages that honour prefers-color-scheme go dark too.
+            "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
+            "layout.css.prefers-color-scheme.content-override" = 0;
             "gfx.webrender.all" = true;
             # Firefox lays out at this ratio itself, which draws text at
             # native resolution instead of letting the compositor stretch it.
