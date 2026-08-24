@@ -90,3 +90,6 @@ require('which-key').setup({
     { '<leader>c', group = 'Code' },
   },
 })
+
+-- search and replace across the project
+require('grug-far').setup({})

@@ -35,6 +35,9 @@
       # base16 theme; colorscheme.lua feeds it the Breeze palette
       base16-nvim
 
+      # search and replace across the project, vscode style
+      grug-far-nvim
+
       # fuzzy finder
       plenary-nvim
       telescope-nvim

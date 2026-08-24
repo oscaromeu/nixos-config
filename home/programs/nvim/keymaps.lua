@@ -28,6 +28,7 @@ map('n', '<leader>fg', tb.live_grep, { desc = 'Grep the project' })
 map('n', '<leader>fb', tb.buffers, { desc = 'Buffers' })
 map('n', '<leader>fr', tb.oldfiles, { desc = 'Recent' })
 map('n', '<leader>fh', tb.help_tags, { desc = 'Help' })
+map('n', '<leader>fs', '<cmd>GrugFar<cr>', { desc = 'Search & replace' })
 map('n', '<leader>fd', tb.diagnostics, { desc = 'Diagnostics' })
 map('n', '<leader>/', tb.current_buffer_fuzzy_find, { desc = 'Search the buffer' })
 
