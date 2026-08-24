@@ -15,6 +15,12 @@ creation_rules:
           - "age1ptththqpxnx0zuzmq0peq9x30vqgdedjsdlsuzxr5gfc36mnwqlsylrpr8"
           # work laptop (oscar-romeu@ubuntu 24.04)
           - "age1q6l5rnhxcdhx0nwv29y4wsx73h0dzc36c2h9mym2gskhv7nmcu7snrnhtf"
+  - path_regex: secrets/air\.sops\.ya?ml$
+    key_groups:
+      - age:
+          - "age1ptththqpxnx0zuzmq0peq9x30vqgdedjsdlsuzxr5gfc36mnwqlsylrpr8"
+          # the Air adds its own key here, then `sops updatekeys` — before the
+          # first switch, or the activation fails to decrypt.
   - path_regex: secrets/rkw2\.sops\.ya?ml$
     key_groups:
       - age:

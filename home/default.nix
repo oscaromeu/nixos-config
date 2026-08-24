@@ -4,6 +4,7 @@
 {
   imports = [
     ./common.nix
+    ./linux.nix
     ./desktop.nix
 
     # Services the host desktop would otherwise provide. A NixOS host has no

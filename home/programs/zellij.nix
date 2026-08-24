@@ -2,6 +2,7 @@
 {
   color,
   pkgs,
+  profile,
   ...
 }:
 with pkgs;
@@ -11,7 +12,7 @@ with pkgs;
       enable = true;
       enableFishIntegration = false;
       settings = {
-        copy_command = "${wl-clipboard}/bin/wl-copy";
+        copy_command = profile.clipboard;
         default_shell = "fish";
         pane_frames = false;
         simplified_ui = true;

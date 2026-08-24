@@ -1,16 +1,17 @@
-# Work laptop: Ubuntu 24.04 with home-manager standalone. Same shape as user/default.nix.
+# The personal MacBook Air: macOS, home-manager standalone. Only the terminal
+# layer; the desktop is Apple's business.
 { ... }:
 let
 
-  name = "oscar-romeu"; # the unix user there, so $HOME matches
+  name = "oscar";
   fullname = "Oscar Romeu";
-  home = "/home/oscar-romeu";
-  clipboard = "wl-copy"; # what zellij pipes copies into
+  home = "/Users/oscar";
+  clipboard = "pbcopy"; # what zellij pipes copies into
 
-  # nixos-config is public, so the work email is not in here. git picks it up
+  # nixos-config is public, so the email is not in here. git picks it up
   # from ~/.config/git/identity on the machine — see home/programs/git.nix.
   email = null;
-  secrets = ../../secrets/work.sops.yaml;
+  secrets = ../../secrets/air.sops.yaml;
 
   layout = "es";
   variant = "cat";

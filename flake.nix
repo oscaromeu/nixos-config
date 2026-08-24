@@ -94,7 +94,6 @@
           extraSpecialArgs = mkSpecialArgs profile system;
           modules = [
             sops-nix.homeManagerModules.sops
-            ./home/standalone.nix
           ]
           ++ modules;
         };
@@ -112,9 +111,21 @@
           system = "x86_64-linux";
           profile = import ./hosts/work/profile.nix { };
           modules = [
+            ./home/standalone.nix
+            ./home/linux.nix
             ./home/common.nix
             ./home/desktop.nix # sway alongside the distro's GNOME
             ./home/work.nix
+          ];
+        };
+
+        # The personal MacBook Air: the first darwin machine, terminal layer only.
+        "oscar@air" = mkHome {
+          system = "aarch64-darwin";
+          profile = import ./hosts/air/profile.nix { };
+          modules = [
+            ./home/darwin.nix
+            ./home/common.nix
           ];
         };
 
@@ -123,6 +134,8 @@
           system = "aarch64-linux";
           profile = import ./hosts/rkw2/profile.nix { };
           modules = [
+            ./home/standalone.nix
+            ./home/linux.nix
             ./home/common.nix # a headless box only gets the CLI half
           ];
         };

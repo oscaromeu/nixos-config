@@ -3,7 +3,9 @@
 let
 
   name = "oscar"; # unix user
-  fullname = "Oscar Romeu"; # git and the account description
+  fullname = "Oscar Romeu";
+  home = "/home/oscar"; # git and the account description
+  clipboard = "wl-copy"; # what zellij pipes copies into
   # nixos-config is public, so the email is not in here either. git picks it up
   # from ~/.config/git/identity on the machine — see home/programs/git.nix.
   email = null;
@@ -24,6 +26,8 @@ in
   inherit
     name
     fullname
+    home
+    clipboard
     email
     secrets
     layout
