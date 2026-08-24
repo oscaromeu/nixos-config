@@ -15,6 +15,9 @@ let
   ];
 
   dev = [
+    # Also wrapped inside nvim; on PATH so VS Code's Nix IDE finds it.
+    nixd
+    nixfmt
     # From unstable: it moves far faster than the release channel.
     pkgsUnstable.claude-code
     gnumake
