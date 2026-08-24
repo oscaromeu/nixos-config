@@ -12,17 +12,23 @@ creation_rules:
   - path_regex: secrets/work\.sops\.ya?ml$
     key_groups:
       - age:
+          # the um560 edits every secret too
+          - "age1utlzcet9ghxpns4t2jw9mmc0ac56ch3v4gdp2w6wkdtjhwdk7y5qh8f3q8"
           - "age1ptththqpxnx0zuzmq0peq9x30vqgdedjsdlsuzxr5gfc36mnwqlsylrpr8"
           # work laptop (oscar-romeu@ubuntu 24.04)
           - "age1q6l5rnhxcdhx0nwv29y4wsx73h0dzc36c2h9mym2gskhv7nmcu7snrnhtf"
   - path_regex: secrets/air\.sops\.ya?ml$
     key_groups:
       - age:
+          # the um560 edits every secret too
+          - "age1utlzcet9ghxpns4t2jw9mmc0ac56ch3v4gdp2w6wkdtjhwdk7y5qh8f3q8"
           # the Air holds the master key itself, so one recipient covers both
           - "age1ptththqpxnx0zuzmq0peq9x30vqgdedjsdlsuzxr5gfc36mnwqlsylrpr8"
   - path_regex: secrets/rkw2\.sops\.ya?ml$
     key_groups:
       - age:
+          # the um560 edits every secret too
+          - "age1utlzcet9ghxpns4t2jw9mmc0ac56ch3v4gdp2w6wkdtjhwdk7y5qh8f3q8"
           - "age1ptththqpxnx0zuzmq0peq9x30vqgdedjsdlsuzxr5gfc36mnwqlsylrpr8"
           # rkw2 (the NAS) adds its key here, then `sops updatekeys` — before
           # the first switch, or the activation fails to decrypt.
