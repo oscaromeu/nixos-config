@@ -35,6 +35,15 @@
       # base16 theme; colorscheme.lua feeds it the Breeze palette
       base16-nvim
 
+      # the rest of what vscode was still doing here
+      SchemaStore-nvim # json/yaml schemas for the LSP
+      diffview-nvim # review diffs properly
+      nvim-sops # decrypt and re-encrypt secrets in the buffer
+      nvim-surround
+      render-markdown-nvim
+      trouble-nvim # the Problems panel
+      vim-sleuth # guess the file's indentation
+
       # search and replace across the project, vscode style
       grug-far-nvim
 

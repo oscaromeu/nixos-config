@@ -93,3 +93,10 @@ require('which-key').setup({
 
 -- search and replace across the project
 require('grug-far').setup({})
+
+-- the vscode-replacement batch
+require('nvim-surround').setup({})
+require('trouble').setup({})
+require('render-markdown').setup({})
+require('diffview').setup({})
+require('nvim-sops').setup({})

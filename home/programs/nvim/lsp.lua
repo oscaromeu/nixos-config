@@ -32,6 +32,16 @@ vim.lsp.config('lua_ls', {
   },
 })
 
+-- Schemas from SchemaStore: kubernetes manifests, taskfiles, github actions...
+vim.lsp.config('yamlls', {
+  settings = {
+    yaml = {
+      schemaStore = { enable = false, url = '' },
+      schemas = require('schemastore').yaml.schemas(),
+    },
+  },
+})
+
 vim.lsp.enable({ 'gopls', 'nixd', 'lua_ls', 'yamlls', 'marksman' })
 
 -- Maps that only make sense with an LSP attached
