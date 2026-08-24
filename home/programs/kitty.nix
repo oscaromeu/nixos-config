@@ -36,6 +36,9 @@
         "ctrl+c" = "copy_or_interrupt";
       };
       extraConfig = ''
+        # ungrabbed: only when the app is not using the mouse itself (nvim keeps its own right-click)
+        mouse_map right press ungrabbed paste_from_clipboard
+
         foreground ${color.h_foreground}
         background ${color.h_background}
 
