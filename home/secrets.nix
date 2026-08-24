@@ -28,6 +28,13 @@
         path = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
         mode = "0644";
       };
+
+      # The home cluster admin config, so kubectl and k9s work on every
+      # machine without hand-copying it around.
+      "kubeconfig-home" = {
+        path = "${config.home.homeDirectory}/.kube/config";
+        mode = "0600";
+      };
     };
   };
 }
