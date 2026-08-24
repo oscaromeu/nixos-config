@@ -32,7 +32,10 @@
 
     fish = {
       interactiveShellInit = ''
-        set -gx KUBECONFIG (string join : $HOME/.kube/config $HOME/.kube/configs/*.yaml)
+        # Through a variable on purpose: an unmatched glob aborts the whole init
+        # block, except as an argument to set.
+        set -l __kube_extras $HOME/.kube/configs/*.yaml
+        set -gx KUBECONFIG (string join : $HOME/.kube/config $__kube_extras)
       '';
     };
   };
