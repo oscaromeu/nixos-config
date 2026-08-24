@@ -41,7 +41,7 @@ Machines that are not NixOS get the terminal half through standalone home-manage
 | Entry | Machine | Runs |
 | --- | --- | --- |
 | `oscar@work` | Work laptop — Ubuntu 24.04, x86_64 | `home/common.nix` + `home/work.nix` |
-| `oscar@rkw2` | NAS — Turing RK1, Ubuntu Rockchip, aarch64 | `home/common.nix` |
+| `oscar@rkw2` | Turing RK1, Ubuntu Rockchip, aarch64 | `home/common.nix` |
 
 ## Day to day
 
