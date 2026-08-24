@@ -1,7 +1,17 @@
 # The full desktop, which is what a NixOS host gets. Machines that only want
 # the CLI half import ./common.nix alone — see homeConfigurations in flake.nix.
-{ ... }:
+{ config, ... }:
 {
+  # The same sync key as every other machine; the account is machine-agnostic.
+  sops = {
+    secrets = {
+      "atuin-key" = {
+        path = "${config.home.homeDirectory}/.local/share/atuin/key";
+        mode = "0600";
+      };
+    };
+  };
+
   imports = [
     ./common.nix
     ./linux.nix
