@@ -18,9 +18,8 @@ creation_rules:
   - path_regex: secrets/air\.sops\.ya?ml$
     key_groups:
       - age:
+          # the Air holds the master key itself, so one recipient covers both
           - "age1ptththqpxnx0zuzmq0peq9x30vqgdedjsdlsuzxr5gfc36mnwqlsylrpr8"
-          # the Air adds its own key here, then `sops updatekeys` — before the
-          # first switch, or the activation fails to decrypt.
   - path_regex: secrets/rkw2\.sops\.ya?ml$
     key_groups:
       - age:
