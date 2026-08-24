@@ -17,6 +17,17 @@
       "git-identity" = {
         path = "${config.home.homeDirectory}/.config/git/identity";
       };
+
+      # The GitHub keypair: a fresh machine can push right after its first
+      # switch — age key in, everything else follows.
+      "ssh-key" = {
+        path = "${config.home.homeDirectory}/.ssh/id_ed25519";
+        mode = "0600";
+      };
+      "ssh-key-pub" = {
+        path = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
+        mode = "0644";
+      };
     };
   };
 }
