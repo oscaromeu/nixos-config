@@ -5,6 +5,10 @@
     # Stable channel. home-manager below must track the same release.
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
+    # Only for the odd package that must be newer than the release, like atuin,
+    # whose sync format has to match every machine.
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+
     # follows keeps home-manager on the same nixpkgs — one version of everything.
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
@@ -21,6 +25,7 @@
   outputs =
     {
       nixpkgs,
+      nixpkgs-unstable,
       home-manager,
       sops-nix,
       ...
@@ -32,13 +37,14 @@
 
       # Shared args: a module gets these by declaring `{ profile, ... }:`.
       # Each machine passes its own profile, everything else is common.
-      mkSpecialArgs = profile: {
+      mkSpecialArgs = profile: system: {
         inherit
           profile
           color
           theme
           alias
           ;
+        pkgsUnstable = import nixpkgs-unstable { inherit system; };
       };
 
       # A NixOS machine: one per hosts/<name> directory.
@@ -49,7 +55,7 @@
         in
         nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = mkSpecialArgs profile;
+          specialArgs = mkSpecialArgs profile "x86_64-linux";
           modules = [
             ./hosts/${hostname} # hardware, hostname, stateVersion
             ./nixos # shared system config
@@ -63,7 +69,7 @@
                 # sops-nix lives in the home-manager layer here too, same as standalone.
                 sharedModules = [ sops-nix.homeManagerModules.sops ];
                 users.${profile.name} = import ./home;
-                extraSpecialArgs = mkSpecialArgs profile;
+                extraSpecialArgs = mkSpecialArgs profile "x86_64-linux";
               };
             }
           ];
@@ -82,7 +88,7 @@
             inherit system;
             config.allowUnfree = true;
           };
-          extraSpecialArgs = mkSpecialArgs profile;
+          extraSpecialArgs = mkSpecialArgs profile system;
           modules = [
             sops-nix.homeManagerModules.sops
             ./home/standalone.nix
