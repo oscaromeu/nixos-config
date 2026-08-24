@@ -58,6 +58,18 @@ in
           gaps = {
             inner = 20;
           };
+          # Left of the space on the laptop panel, the rest on the external
+          # monitor when there is one; names that do not exist are ignored, so
+          # the same block is harmless on the desktop.
+          workspaceOutputAssign = [
+            { workspace = "1"; output = "eDP-1"; }
+            { workspace = "2"; output = "eDP-1"; }
+            { workspace = "3"; output = "eDP-1"; }
+            { workspace = "4"; output = "HDMI-A-1 eDP-1"; }
+            { workspace = "5"; output = "HDMI-A-1 eDP-1"; }
+            { workspace = "6"; output = "HDMI-A-1 eDP-1"; }
+            { workspace = "7"; output = "HDMI-A-1 eDP-1"; }
+          ];
           startup = [
             { command = "${kitty}/bin/kitty"; }
           ];
@@ -184,8 +196,6 @@ in
             "${mod4}+5" = "workspace number 5";
             "${mod4}+6" = "workspace number 6";
             "${mod4}+7" = "workspace number 7";
-            "${mod4}+8" = "workspace number 8";
-            "${mod4}+9" = "workspace number 9";
 
             "${mod4}+Shift+period" = "move container to workspace next; workspace next";
             "${mod4}+Shift+comma" = "move container to workspace prev; workspace prev";
@@ -197,8 +207,6 @@ in
             "${mod4}+Shift+5" = "move container to workspace number 5";
             "${mod4}+Shift+6" = "move container to workspace number 6";
             "${mod4}+Shift+7" = "move container to workspace number 7";
-            "${mod4}+Shift+8" = "move container to workspace number 8";
-            "${mod4}+Shift+9" = "move container to workspace number 9";
 
             "${mod4}+${left}" = "focus left";
             "${mod4}+${down}" = "focus down";
