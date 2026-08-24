@@ -38,6 +38,10 @@ in
         path = "${config.home.homeDirectory}/.config/openvpn/casa.auth";
         mode = "0600";
       };
+      "atuin-key" = {
+        path = "${config.home.homeDirectory}/.local/share/atuin/key";
+        mode = "0600";
+      };
     };
   };
 
