@@ -14,6 +14,10 @@
         font_size = theme.font-size-term;
         italic_font = "auto";
 
+        # Selecting already copies; ctrl+c copies when there is a selection
+        # and interrupts as always when there is not.
+        copy_on_select = "yes";
+
         enable_audio_bell = false;
         enabled_layouts = "tall";
         scrollback_lines = 10000;
@@ -27,6 +31,9 @@
         tab_fade = "0.3 0.6 0.9";
         tab_powerline_style = "angled";
         tab_title_max_length = 12;
+      };
+      keybindings = {
+        "ctrl+c" = "copy_or_interrupt";
       };
       extraConfig = ''
         foreground ${color.h_foreground}
