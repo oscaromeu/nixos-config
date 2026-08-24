@@ -1,5 +1,5 @@
 # Packages with no config of their own; the configured ones live in home/programs.
-{ pkgs, ... }:
+{ pkgs, pkgsUnstable, ... }:
 with pkgs;
 let
 
@@ -15,6 +15,8 @@ let
   ];
 
   dev = [
+    # From unstable: it moves far faster than the release channel.
+    pkgsUnstable.claude-code
     gnumake
     python3
   ];

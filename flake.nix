@@ -44,7 +44,10 @@
           theme
           alias
           ;
-        pkgsUnstable = import nixpkgs-unstable { inherit system; };
+        pkgsUnstable = import nixpkgs-unstable {
+          inherit system;
+          config.allowUnfree = true;
+        };
       };
 
       # A NixOS machine: one per hosts/<name> directory.
