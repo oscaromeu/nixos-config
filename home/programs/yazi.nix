@@ -293,7 +293,7 @@ with pkgs;
         opener = {
           edit = [
             {
-              run = ''$EDITOR "$@"'';
+              run = ''nvim "$@"''; # by name: Super+E starts yazi with no shell, so no $EDITOR
               block = true;
               desc = "Edit";
               for = "unix";
