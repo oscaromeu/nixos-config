@@ -1,7 +1,13 @@
 # The full desktop, which is what a NixOS host gets. Machines that only want
 # the CLI half import ./common.nix alone — see homeConfigurations in flake.nix.
-{ config, ... }:
+{ config, pkgs, ... }:
 {
+  # From nix here; the work laptop gets it from apt. Settings travel by
+  # Settings Sync on purpose: the editor owns its own files.
+  home = {
+    packages = [ pkgs.vscode ];
+  };
+
   # The same sync key as every other machine; the account is machine-agnostic.
   sops = {
     secrets = {
