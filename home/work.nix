@@ -16,11 +16,6 @@ let
     terragrunt
   ];
 
-  secrets = [
-    age
-    sops
-  ];
-
 in
 {
   # The tunnel itself is system layer, so only its config comes from here.
@@ -67,6 +62,6 @@ in
   };
 
   home = {
-    packages = cloud ++ iac ++ secrets;
+    packages = cloud ++ iac;
   };
 }

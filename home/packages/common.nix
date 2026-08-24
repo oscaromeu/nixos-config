@@ -22,6 +22,10 @@ let
   ];
 
   devops = [
+    # Secrets are edited from any machine; only decryption keys are per-machine.
+    age
+    sops
+
     cue
     fluxcd
     go-task # task
