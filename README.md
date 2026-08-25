@@ -81,6 +81,8 @@ On NixOS, roll back with `sudo nixos-rebuild switch --rollback`. If a change bre
 | `Mod` + `n` | Colour picker |
 | `Mod` + `o` | Screen mirror, for presentations |
 | `Mod` + `p` | Monitor layout (wdisplays) |
+| `Mod` + `Shift` + `n` | Notification center (swaync) |
+| `Mod` + `Shift` + `d` | Do not disturb |
 | `Mod` + `x` | Power menu |
 | `Mod` + `Escape` | Lock the screen |
 | `Mod` + `1-7` | Go to workspace N — `1-3` on the laptop panel, `4-7` on the external monitor |

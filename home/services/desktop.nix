@@ -2,7 +2,7 @@
 {
   imports = [
     ./cliphist.nix
-    ./mako.nix
+    ./swaync.nix
     ./nm-applet.nix
     ./playerctld.nix
     ./swayidle.nix

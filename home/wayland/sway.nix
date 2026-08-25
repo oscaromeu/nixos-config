@@ -177,7 +177,8 @@ in
             "${mod4}+e" = "exec ${kitty}/bin/kitty ${yazi}/bin/yazi";
             "${mod4}+m" = "exec ${bemoji}/bin/bemoji";
             "${mod4}+n" = "exec ${wl-color-picker}/bin/wl-color-picker clipboard";
-            "${mod4}+Shift+n" = "exec ${mako}/bin/makoctl restore";
+            "${mod4}+Shift+n" = "exec ${swaynotificationcenter}/bin/swaync-client -t -sw";
+            "${mod4}+Shift+d" = "exec ${swaynotificationcenter}/bin/swaync-client -d -sw";
             # screen mirror, for presentations
             "${mod4}+o" = "exec ${wl-mirror}/bin/wl-present mirror";
             "${mod4}+p" = "exec ${wdisplays}/bin/wdisplays";

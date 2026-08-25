@@ -123,6 +123,7 @@ in
             "custom/vpn"
             "pulseaudio"
             "battery"
+            "custom/notification"
             "tray"
           ];
           battery = {
@@ -139,6 +140,25 @@ in
             format = "󰄀";
             tooltip = false;
             on-click = "${shot}";
+          };
+          "custom/notification" = {
+            format = "{icon}";
+            format-icons = {
+              notification = "󱅫";
+              none = "󰂜";
+              dnd-notification = "󰂠";
+              dnd-none = "󰪓";
+              inhibited-notification = "󱅫";
+              inhibited-none = "󰂜";
+              dnd-inhibited-notification = "󰂠";
+              dnd-inhibited-none = "󰪓";
+            };
+            return-type = "json";
+            exec = "${pkgs.swaynotificationcenter}/bin/swaync-client -swb";
+            on-click = "${pkgs.swaynotificationcenter}/bin/swaync-client -t -sw";
+            on-click-right = "${pkgs.swaynotificationcenter}/bin/swaync-client -d -sw";
+            escape = true;
+            tooltip = false;
           };
           "custom/vpn" = {
             exec = "${vpnStatus}";
@@ -331,6 +351,7 @@ in
         #cpu,
         #memory,
         #battery,
+        #custom-notification,
         #custom-screenshot,
         #custom-tailscale,
         #custom-vpn,
@@ -371,6 +392,9 @@ in
         }
         #custom-screenshot {
           color: ${color.h_bright_cyan};
+        }
+        #custom-notification {
+          color: ${color.h_bright_yellow};
         }
         #custom-vpn {
           color: ${color.h_green};
