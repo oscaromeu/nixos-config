@@ -1,8 +1,26 @@
 # Shell abbreviations. fish expands them as you type.
-{ ... }:
+{ profile, ... }:
 let
 
-  abbr = {
+  repo = "~/Documents/repos/gh/nixos-config";
+
+  rebuild =
+    if profile.hmTarget == null then
+      {
+        nrs = "sudo nixos-rebuild switch --flake ${repo}";
+        nrb = "nixos-rebuild build --flake ${repo}";
+        nrd = "sudo nixos-rebuild dry-activate --flake ${repo}";
+        slg = "sudo nix-env --list-generations -p /nix/var/nix/profiles/system";
+      }
+    else
+      {
+        nrs = "home-manager switch --flake ${repo}#${profile.hmTarget}";
+        nrb = "home-manager build --flake ${repo}#${profile.hmTarget}";
+        nrd = "home-manager switch --dry-run --flake ${repo}#${profile.hmTarget}";
+        slg = "home-manager generations";
+      };
+
+  abbr = rebuild // {
     # utils
     e = "eza";
     ll = "eza -l";
@@ -24,14 +42,10 @@ let
     ssr = "sudo systemctl restart";
     sss = "sudo systemctl status";
 
-    # rebuilds; every machine keeps the clone at the same path
-    nrs = "sudo nixos-rebuild switch --flake ~/Documents/repos/gh/nixos-config";
-    nrb = "nixos-rebuild build --flake ~/Documents/repos/gh/nixos-config";
-    nrd = "sudo nixos-rebuild dry-activate --flake ~/Documents/repos/gh/nixos-config";
-    nfu = "nix flake update --flake ~/Documents/repos/gh/nixos-config";
+    # rebuilds; nrs/nrb/nrd/slg come from `rebuild` above, per machine
+    nfu = "nix flake update --flake ${repo}";
 
-    # generations and garbage collection
-    slg = "sudo nix-env --list-generations -p /nix/var/nix/profiles/system";
+    # garbage collection
     ngc = "sudo nix-collect-garbage --delete-older-than 14d";
 
     # git

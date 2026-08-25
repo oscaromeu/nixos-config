@@ -33,7 +33,6 @@
     let
       color = import ./config/color.nix { };
       theme = import ./config/theme.nix { };
-      alias = import ./config/abbr.nix { };
 
       # Shared args: a module gets these by declaring `{ profile, ... }:`.
       # Each machine passes its own profile, everything else is common.
@@ -42,8 +41,8 @@
           profile
           color
           theme
-          alias
           ;
+        alias = import ./config/abbr.nix { inherit profile; };
         pkgsUnstable = import nixpkgs-unstable {
           inherit system;
           config.allowUnfree = true;

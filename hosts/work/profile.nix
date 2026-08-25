@@ -12,8 +12,16 @@ let
   email = null;
   secrets = ../../secrets/work.sops.yaml;
 
+  hmTarget = "oscar@work";
+
   layout = "es";
   variant = "cat";
+
+  externalOutput = {
+    name = "LG Electronics LG HDR 4K 0xC455088D";
+    scale = "1.5";
+    position = "1920,0";
+  };
 
   timezone = "Europe/Madrid";
   locale = "es_ES.UTF-8";
@@ -29,8 +37,10 @@ in
     clipboard
     email
     secrets
+    hmTarget
     layout
     variant
+    externalOutput
     timezone
     locale
     sshKeys

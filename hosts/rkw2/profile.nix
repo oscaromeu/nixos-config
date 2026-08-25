@@ -13,8 +13,12 @@ let
   email = null;
   secrets = ../../secrets/rkw2.sops.yaml;
 
+  hmTarget = "oscar@rkw2";
+
   layout = "es";
   variant = "cat";
+
+  externalOutput = null;
 
   timezone = "Europe/Madrid";
   locale = "es_ES.UTF-8";
@@ -30,8 +34,10 @@ in
     clipboard
     email
     secrets
+    hmTarget
     layout
     variant
+    externalOutput
     timezone
     locale
     sshKeys

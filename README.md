@@ -45,18 +45,25 @@ Machines that are not NixOS get the terminal half through standalone home-manage
 
 ## Day to day
 
-Everything runs from the clone on the machine itself (`~/nixos-config`). The abbreviations live in `config/abbr.nix`; fish expands them as you type.
+Everything runs from the clone on the machine itself (`~/Documents/repos/gh/nixos-config`). The abbreviations live in `config/abbr.nix`; fish expands them as you type.
+
+The same four keys work everywhere — `config/abbr.nix` reads `hmTarget` from the profile and expands them to whichever tool that machine actually has. `nixos-rebuild` only exists on NixOS; typing `nrs` on the work laptop gets you `home-manager switch` instead.
+
+| | Abbr | On a NixOS host | On a standalone home-manager machine |
+| --- | --- | --- | --- |
+| Apply my changes | `nrs` | `sudo nixos-rebuild switch --flake .` | `home-manager switch --flake .#oscar@<host>` |
+| Build without activating | `nrb` | `nixos-rebuild build --flake .` | `home-manager build --flake .#oscar@<host>` |
+| Dry run | `nrd` | `sudo nixos-rebuild dry-activate --flake .` | `home-manager switch --dry-run --flake .#oscar@<host>` |
+| List generations | `slg` | `nix-env --list-generations -p /nix/var/nix/profiles/system` | `home-manager generations` |
+
+These two are the same everywhere:
 
 | | Command | Abbr |
 | --- | --- | --- |
-| Apply my changes | `sudo nixos-rebuild switch --flake ~/nixos-config` | `nrs` |
-| Build without activating | `nixos-rebuild build --flake ~/nixos-config` | `nrb` |
-| Update packages | `nix flake update --flake ~/nixos-config`, then `nrs` | `nfu` |
-| List system generations | `nix-env --list-generations -p /nix/var/nix/profiles/system` | `slg` |
-| Roll back | `sudo nixos-rebuild switch --rollback` | |
+| Update packages | `nix flake update --flake ~/Documents/repos/gh/nixos-config`, then `nrs` | `nfu` |
 | Free disk space | `sudo nix-collect-garbage --delete-older-than 14d` | `ngc` |
 
-If a change breaks the boot, reboot and pick an older generation in the systemd-boot menu. Nothing is lost.
+On NixOS, roll back with `sudo nixos-rebuild switch --rollback`. If a change breaks the boot, reboot and pick an older generation in the systemd-boot menu. Nothing is lost. Standalone machines roll back by activating an older generation from `slg`.
 
 ## Keybindings
 
@@ -76,11 +83,13 @@ If a change breaks the boot, reboot and pick an older generation in the systemd-
 | `Mod` + `p` | Monitor layout (wdisplays) |
 | `Mod` + `x` | Power menu |
 | `Mod` + `Escape` | Lock the screen |
-| `Mod` + `1-9` | Go to workspace N |
-| `Mod` + `Shift` + `1-9` | Move the window to workspace N |
+| `Mod` + `1-7` | Go to workspace N — `1-3` on the laptop panel, `4-7` on the external monitor |
+| `Mod` + `Shift` + `1-7` | Move the window to workspace N |
 | `Mod` + `Tab` | Next workspace (`Shift` for the previous one) |
 | `Mod` + `h/j/k/l` | Move the focus |
 | `Mod` + `Shift` + `h/j/k/l` | Move the window |
+| `Mod` + `Ctrl` + `h/j/k/l` | Move the workspace to another monitor |
+| `Mod` + `Ctrl` + `Shift` + `h/j/k/l` | Move the focus to another monitor |
 | `Mod` + `f` | Fullscreen |
 | `Mod` + `Shift` + `q` | Close the window |
 | `Mod` + `r` | Resize mode (`h/j/k/l`, `Esc` leaves) |

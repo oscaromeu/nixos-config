@@ -8,15 +8,20 @@
     mako = {
       enable = true;
       settings = {
-        backgroundColor = color.f_background;
-        borderColor = color.f_blue;
-        borderSize = "3";
-        defaultTimeout = "5000"; # 5s
+        "background-color" = color.f_background;
+        "border-color" = color.f_blue;
+        "border-size" = "3";
+        "default-timeout" = "5000"; # 5s
         font = "${theme.font} ${toString theme.font-size}";
         margin = "30";
         padding = "5";
-        progressColor = "over ${color.f_cyan}";
-        textColor = color.f_foreground;
+        "progress-color" = "over ${color.f_cyan}";
+        "text-color" = color.f_foreground;
+
+        "desktop-entry=snap.slack" = {
+          "default-timeout" = "20000"; # 20s
+          "border-color" = color.f_green;
+        };
       };
     };
   };

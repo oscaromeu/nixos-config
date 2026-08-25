@@ -18,6 +18,10 @@ let
 
 in
 {
+  imports = [
+    ./programs/chrome.nix
+  ];
+
   # The tunnel itself is system layer, so only its config comes from here.
   sops = {
     secrets = {

@@ -21,6 +21,9 @@ let
   up = "k";
   right = "l";
 
+  external = profile.externalOutput;
+  externalFirst = optional (external != null) external.name;
+
   window_bg_color = color.h_background;
   accent_bg_color = color.h_blue;
   accent_fg_color = color.h_foreground;
@@ -62,14 +65,20 @@ in
           # monitor when there is one; names that do not exist are ignored, so
           # the same block is harmless on the desktop.
           workspaceOutputAssign = [
-            { workspace = "1"; output = "eDP-1"; }
-            { workspace = "2"; output = "eDP-1"; }
-            { workspace = "3"; output = "eDP-1"; }
-            { workspace = "4"; output = "HDMI-A-1 eDP-1"; }
-            { workspace = "5"; output = "HDMI-A-1 eDP-1"; }
-            { workspace = "6"; output = "HDMI-A-1 eDP-1"; }
-            { workspace = "7"; output = "HDMI-A-1 eDP-1"; }
+            { workspace = "1"; output = [ "eDP-1" ]; }
+            { workspace = "2"; output = [ "eDP-1" ]; }
+            { workspace = "3"; output = [ "eDP-1" ]; }
+            { workspace = "4"; output = externalFirst ++ [ "eDP-1" ]; }
+            { workspace = "5"; output = externalFirst ++ [ "eDP-1" ]; }
+            { workspace = "6"; output = externalFirst ++ [ "eDP-1" ]; }
+            { workspace = "7"; output = externalFirst ++ [ "eDP-1" ]; }
           ];
+          output = optionalAttrs (external != null) {
+            ${external.name} = {
+              scale = external.scale;
+              position = external.position;
+            };
+          };
           startup = [
             { command = "${kitty}/bin/kitty"; }
           ];
@@ -168,6 +177,7 @@ in
             "${mod4}+e" = "exec ${kitty}/bin/kitty ${yazi}/bin/yazi";
             "${mod4}+m" = "exec ${bemoji}/bin/bemoji";
             "${mod4}+n" = "exec ${wl-color-picker}/bin/wl-color-picker clipboard";
+            "${mod4}+Shift+n" = "exec ${mako}/bin/makoctl restore";
             # screen mirror, for presentations
             "${mod4}+o" = "exec ${wl-mirror}/bin/wl-present mirror";
             "${mod4}+p" = "exec ${wdisplays}/bin/wdisplays";
@@ -217,6 +227,11 @@ in
             "${mod4}+Ctrl+${down}" = "move workspace to output down";
             "${mod4}+Ctrl+${up}" = "move workspace to output up";
             "${mod4}+Ctrl+${right}" = "move workspace to output right";
+
+            "${mod4}+Ctrl+Shift+${left}" = "focus output left";
+            "${mod4}+Ctrl+Shift+${down}" = "focus output down";
+            "${mod4}+Ctrl+Shift+${up}" = "focus output up";
+            "${mod4}+Ctrl+Shift+${right}" = "focus output right";
 
             "${mod4}+Shift+${left}" = "move left";
             "${mod4}+Shift+${down}" = "move down";
