@@ -2,7 +2,7 @@
 let
 
   chrome = "/usr/bin/google-chrome-stable";
-  flags = "--ozone-platform-hint=auto --force-device-scale-factor=1.75";
+  flags = "--ozone-platform-hint=auto --force-device-scale-factor=1.50";
 
 in
 {

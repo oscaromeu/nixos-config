@@ -18,7 +18,7 @@ let
   layout = "es";
   variant = "cat";
 
-  externalOutput = null;
+  externalOutputs = [ ];
 
   timezone = "Europe/Madrid";
   locale = "es_ES.UTF-8";
@@ -37,7 +37,7 @@ in
     hmTarget
     layout
     variant
-    externalOutput
+    externalOutputs
     timezone
     locale
     sshKeys

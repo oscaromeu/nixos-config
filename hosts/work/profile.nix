@@ -17,11 +17,18 @@ let
   layout = "es";
   variant = "cat";
 
-  externalOutput = {
-    name = "LG Electronics LG HDR 4K 0xC455088D";
-    scale = "1.5";
-    position = "1920,0";
-  };
+  externalOutputs = [
+    {
+      name = "LG Electronics LG HDR 4K 0xC455088D";
+      scale = "1.5";
+      position = "1920,0";
+    }
+    {
+      name = "LG Electronics LG HDR WFHD 0x0005FC4A";
+      scale = "1.0";
+      position = "1920,0";
+    }
+  ];
 
   timezone = "Europe/Madrid";
   locale = "es_ES.UTF-8";
@@ -40,7 +47,7 @@ in
     hmTarget
     layout
     variant
-    externalOutput
+    externalOutputs
     timezone
     locale
     sshKeys

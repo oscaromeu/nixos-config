@@ -21,8 +21,8 @@ let
   up = "k";
   right = "l";
 
-  external = profile.externalOutput;
-  externalFirst = optional (external != null) external.name;
+  externals = profile.externalOutputs;
+  externalFirst = map (o: o.name) externals;
 
   window_bg_color = color.h_background;
   accent_bg_color = color.h_blue;
@@ -73,12 +73,9 @@ in
             { workspace = "6"; output = externalFirst ++ [ "eDP-1" ]; }
             { workspace = "7"; output = externalFirst ++ [ "eDP-1" ]; }
           ];
-          output = optionalAttrs (external != null) {
-            ${external.name} = {
-              scale = external.scale;
-              position = external.position;
-            };
-          };
+          output = listToAttrs (
+            map (o: nameValuePair o.name { inherit (o) scale position; }) externals
+          );
           startup = [
             { command = "${kitty}/bin/kitty"; }
           ];
