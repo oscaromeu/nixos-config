@@ -73,7 +73,9 @@ in
             { workspace = "6"; output = externalFirst ++ [ "eDP-1" ]; }
             { workspace = "7"; output = externalFirst ++ [ "eDP-1" ]; }
           ];
-          output = listToAttrs (
+          output = {
+            "eDP-1".position = "0,0";
+          } // listToAttrs (
             map (o: nameValuePair o.name { inherit (o) scale position; }) externals
           );
           startup = [
