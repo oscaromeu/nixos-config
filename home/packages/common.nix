@@ -28,7 +28,7 @@ let
     # Secrets are edited from any machine; only decryption keys are per-machine.
     age
     sops
-
+    gopass
     cue
     fluxcd
     go-task # task

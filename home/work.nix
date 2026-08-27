@@ -37,6 +37,12 @@ in
         path = "${config.home.homeDirectory}/.config/openvpn/casa.auth";
         mode = "0600";
       };
+      "gopass-age-identities" = {
+        sopsFile = ../secrets/work-gopass-identities;
+        format = "binary";
+        path = "${config.home.homeDirectory}/.config/gopass/age/identities";
+        mode = "0600";
+      };
       "atuin-key" = {
         path = "${config.home.homeDirectory}/.local/share/atuin/key";
         mode = "0600";
@@ -55,6 +61,9 @@ in
     # Prod lives outside the everyday KUBECONFIG on purpose, reached only
     # through these. Work machine only: nothing else has ~/.kube/prod.
     fish = {
+      interactiveShellInit = ''
+        set -gx GPG_TTY (tty)
+      '';
       shellAbbrs = {
         kp = "kubectl --kubeconfig ~/.kube/prod/flanks-pro.yaml";
         k9sp = "env KUBECONFIG=(string join : $HOME/.kube/prod/*.yaml) k9s";
@@ -67,5 +76,10 @@ in
 
   home = {
     packages = cloud ++ iac;
+    file = {
+      ".gnupg/gpg-agent.conf" = {
+        text = "pinentry-program /usr/bin/pinentry-curses";
+      };
+    };
   };
 }
