@@ -63,6 +63,9 @@ in
     fish = {
       interactiveShellInit = ''
         set -gx GPG_TTY (tty)
+        set -gx GOPASS_CONFIG_COUNT 1
+        set -gx GOPASS_CONFIG_KEY_0 age.agent-enabled
+        set -gx GOPASS_CONFIG_VALUE_0 true
       '';
       shellAbbrs = {
         kp = "kubectl --kubeconfig ~/.kube/prod/flanks-pro.yaml";
