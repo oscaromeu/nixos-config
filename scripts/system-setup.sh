@@ -112,6 +112,13 @@ write_file /etc/pam.d/swaylock 0644 <<'EOF'
 auth required pam_unix.so
 EOF
 
+# Screen sharing under sway: the portal frontend is Ubuntu's, so its wlroots
+# backend has to be too — home/desktop.nix leaves portals to the distro.
+if command -v apt-get >/dev/null 2>&1 && [ ! -e /usr/share/xdg-desktop-portal/portals/wlr.portal ]; then
+  step "wlroots screen-sharing portal"
+  sudo apt-get install -y xdg-desktop-portal-wlr
+fi
+
 # Changing prefs is checked against the caller, not the socket mode, so the
 # waybar exit-node menu needs this once or it fails with an access denial.
 if command -v tailscale >/dev/null 2>&1; then
