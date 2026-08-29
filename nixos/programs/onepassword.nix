@@ -13,12 +13,12 @@
     };
   };
 
-  # The browser integration only trusts binaries it knows, and the nixpkgs firefox is a
-  # wrapper (.firefox-wrapped) it does not. Mode 0755 is required by 1Password.
+  # The browser integration only trusts binaries it knows, and the nixpkgs librewolf is a
+  # wrapper (.librewolf-wrapped) it does not. Mode 0755 is required by 1Password.
   environment.etc."1password/custom_allowed_browsers" = {
     text = ''
-      firefox
-      .firefox-wrapped
+      librewolf
+      .librewolf-wrapped
     '';
     mode = "0755";
   };

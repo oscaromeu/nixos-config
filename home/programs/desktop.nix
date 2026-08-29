@@ -2,10 +2,10 @@
 {
   imports = [
     ./cava.nix # needs an audio server
-    ./firefox.nix
     ./foot.nix
     ./imv.nix
     ./kitty.nix
+    ./librewolf.nix
     ./mpv.nix
     ./rofi.nix
     ./swaylock.nix

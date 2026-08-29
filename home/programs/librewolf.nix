@@ -1,8 +1,10 @@
-# Privacy settings from swayhome; Firefox Sync still works.
+# Privacy settings from swayhome, carried over from Firefox. Policy keys below
+# keep Mozilla's own names (DisableFirefoxStudies, FirefoxHome, ...) since
+# LibreWolf reads the same policies.json schema; they are not LibreWolf-specific.
 { profile, ... }:
 {
   programs = {
-    firefox = {
+    librewolf = {
       enable = true;
       profiles = {
         ${profile.name} = {

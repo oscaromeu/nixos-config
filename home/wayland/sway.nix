@@ -143,7 +143,7 @@ in
           };
           assigns = {
             "2" = [
-              { app_id = "firefox"; }
+              { app_id = "librewolf"; }
             ];
             "3" = [
               { app_id = "vscode"; }

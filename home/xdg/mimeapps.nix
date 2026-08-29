@@ -1,7 +1,7 @@
 { ... }:
 let
 
-  browser = [ "firefox.desktop" ];
+  browser = [ "librewolf.desktop" ];
   images = [ "imv.desktop" ];
   pdf = [ "org.pwmt.zathura.desktop" ];
   video = [ "mpv.desktop" ];
