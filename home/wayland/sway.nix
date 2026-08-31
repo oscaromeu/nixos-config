@@ -249,6 +249,7 @@ in
             "${mod4}+XF86AudioLowerVolume" =
               "exec ${wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 2%-";
             "${mod4}+XF86AudioMute" = "exec ${wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
+            "XF86AudioMicMute" = "exec ${wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
 
             "XF86AudioPlay" = "exec ${playerctl}/bin/playerctl play-pause --player=%any,mpv";
             "XF86AudioPrev" = "exec ${playerctl}/bin/playerctl previous --player=%any,mpv";
