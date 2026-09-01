@@ -38,6 +38,9 @@
     # Java: avoids grey windows on tiling WMs
     export _JAVA_AWT_WM_NONREPARENTING=1
 
-    export SSH_ASKPASS_REQUIRE=prefer
+    # never, not prefer: with DISPLAY set by Xwayland ssh would route the
+    # unknown-host-key prompt to an askpass binary no profile installs, so
+    # every first connection died with "Host key verification failed".
+    export SSH_ASKPASS_REQUIRE=never
   '';
 }

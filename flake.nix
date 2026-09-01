@@ -20,6 +20,15 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # zot is not in nixpkgs and the RK1 is not for compiling Go, so this is the
+    # release binary. Its hash lives in flake.lock, not here: renovate only
+    # bumps the URL and nix relocks it on the next switch.
+    # renovate: datasource=github-releases depName=project-zot/zot
+    zot-bin = {
+      url = "file+https://github.com/project-zot/zot/releases/download/v2.1.20/zot-linux-arm64";
+      flake = false;
+    };
   };
 
   outputs =
@@ -28,6 +37,7 @@
       nixpkgs-unstable,
       home-manager,
       sops-nix,
+      zot-bin,
       ...
     }:
     let
@@ -84,13 +94,14 @@
           system,
           profile,
           modules,
+          extraArgs ? { }, # host-specific module args, like a binary input
         }:
         home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {
             inherit system;
             config.allowUnfree = true;
           };
-          extraSpecialArgs = mkSpecialArgs profile system;
+          extraSpecialArgs = mkSpecialArgs profile system // extraArgs;
           modules = [
             sops-nix.homeManagerModules.sops
           ]
@@ -136,7 +147,9 @@
             ./home/standalone.nix
             ./home/linux.nix
             ./home/common.nix # a headless box only gets the CLI half
+            ./home/services/zot.nix # only the NAS serves a registry
           ];
+          extraArgs = { inherit zot-bin; };
         };
       };
     };
