@@ -14,6 +14,9 @@ let
   iac = [
     terraform
     terragrunt
+    # psql: the cloudsql module's permission remediation runs local-exec psql
+    # against the instance private IP during apply.
+    postgresql_16
   ];
 
 in
