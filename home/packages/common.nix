@@ -28,6 +28,7 @@ let
     age
     sops
     gopass
+    pkgsUnstable.yopass
     cue
     fluxcd
     go-task # task
