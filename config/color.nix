@@ -242,6 +242,10 @@ in
 
   # rgb triplet, to compose an rgba with an alpha other than the two above
   inherit v_background;
+  inherit v_background_alt;
+  inherit v_foreground;
+  inherit v_blue;
+  inherit v_red;
 
   inherit h_background;
   inherit h_background_alt;
