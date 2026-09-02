@@ -29,7 +29,7 @@ let
     sops
     gopass
     pkgsUnstable.yopass
-    cue
+    pkgsUnstable.cue
     fluxcd
     go-task # task
     helmfile
