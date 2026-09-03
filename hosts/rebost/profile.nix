@@ -11,9 +11,9 @@ let
   # nixos-config is public, so the email is not in here. git picks it up
   # from ~/.config/git/identity on the machine — see home/programs/git.nix.
   email = null;
-  secrets = ../../secrets/rkw2.sops.yaml;
+  secrets = ../../secrets/rebost.sops.yaml;
 
-  hmTarget = "oscar@rkw2";
+  hmTarget = "oscar@rebost";
 
   layout = "es";
   variant = "cat";

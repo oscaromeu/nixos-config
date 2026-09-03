@@ -32,12 +32,11 @@ creation_rules:
           - "age1utlzcet9ghxpns4t2jw9mmc0ac56ch3v4gdp2w6wkdtjhwdk7y5qh8f3q8"
           # the Air holds the master key itself, so one recipient covers both
           - "age1ptththqpxnx0zuzmq0peq9x30vqgdedjsdlsuzxr5gfc36mnwqlsylrpr8"
-  - path_regex: secrets/rkw2\.sops\.ya?ml$
+  - path_regex: secrets/rebost\.sops\.ya?ml$
     key_groups:
       - age:
           # the um560 edits every secret too
           - "age1utlzcet9ghxpns4t2jw9mmc0ac56ch3v4gdp2w6wkdtjhwdk7y5qh8f3q8"
           - "age1ptththqpxnx0zuzmq0peq9x30vqgdedjsdlsuzxr5gfc36mnwqlsylrpr8"
-          # rkw2 (the NAS) adds its key here, then `sops updatekeys` — before
-          # the first switch, or the activation fails to decrypt.
+          # rebost, the NAS (formerly rkw2)
           - "age1rv8ehfjt9wulgl74e9w6kjx5e9epre90xvapgg0r9n2xy44uqq5q3n480d"

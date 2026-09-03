@@ -140,9 +140,9 @@
         };
 
         # user@hostname matches, so a bare `home-manager switch --flake .` works there.
-        "oscar@rkw2" = mkHome {
+        "oscar@rebost" = mkHome {
           system = "aarch64-linux";
-          profile = import ./hosts/rkw2/profile.nix { };
+          profile = import ./hosts/rebost/profile.nix { };
           modules = [
             ./home/standalone.nix
             ./home/linux.nix
