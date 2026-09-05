@@ -3,7 +3,7 @@ let
 
   # Only forgejo's cache and sessions live here, so nothing is worth
   # persisting and the socket never leaves the machine.
-  dataDir = "${config.home.homeDirectory}/valkey";
+  dataDir = "${config.xdg.cacheHome}/valkey";
 
   conf = pkgs.writeText "valkey.conf" ''
     bind 127.0.0.1
@@ -21,7 +21,7 @@ in
     Unit.Description = "Valkey cache";
 
     Service = {
-      ExecStartPre = "${pkgs.coreutils}/bin/mkdir -p ${dataDir}";
+      CacheDirectory = "valkey";
       ExecStart = "${pkgs.valkey}/bin/valkey-server ${conf}";
       Restart = "on-failure";
       RestartSec = 5;

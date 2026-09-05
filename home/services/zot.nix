@@ -9,8 +9,8 @@ let
 
   port = "5000";
 
-  # Where the blobs land. Point it at the array mount once there is one.
-  dataDir = "${config.home.homeDirectory}/zot";
+  # A pull-through cache is fully rebuildable, so the blobs are cache, not state.
+  dataDir = "${config.xdg.cacheHome}/zot";
 
   # The release binary is a dynamically linked PIE, so it still needs patching
   # even though nothing is compiled here.
@@ -63,7 +63,7 @@ in
     };
 
     Service = {
-      ExecStartPre = "${pkgs.coreutils}/bin/mkdir -p ${dataDir}";
+      CacheDirectory = "zot";
       ExecStart = "${zot}/bin/zot serve ${settings}";
       Restart = "on-failure";
       RestartSec = 5;

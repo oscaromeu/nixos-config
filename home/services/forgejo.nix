@@ -1,8 +1,8 @@
 { pkgs, config, ... }:
 let
 
-  workDir = "${config.home.homeDirectory}/forgejo";
-  pgSocket = "${config.home.homeDirectory}/pg"; # keep in sync with postgres.nix
+  workDir = "${config.xdg.stateHome}/forgejo";
+  pgSocket = "${config.xdg.stateHome}/postgres"; # keep in sync with postgres.nix
 
   host = "10.69.1.32";
 
@@ -116,6 +116,8 @@ in
     };
 
     Service = {
+      StateDirectory = "forgejo";
+      StateDirectoryMode = "0700";
       Environment = [ "FORGEJO_WORK_DIR=${workDir}" ];
       ExecStartPre = "${setup}";
       ExecStart = "${forgejo} web --config ${settings}";

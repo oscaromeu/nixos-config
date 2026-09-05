@@ -3,11 +3,10 @@ let
 
   pg = pkgs.postgresql_17;
 
-  baseDir = "${config.home.homeDirectory}/pg";
+  baseDir = "${config.xdg.stateHome}/postgres";
   dataDir = "${baseDir}/data";
 
   init = pkgs.writeShellScript "pg-init" ''
-    mkdir -p ${baseDir}
     if [ ! -f ${dataDir}/PG_VERSION ]; then
       ${pg}/bin/initdb -D ${dataDir} \
         --locale=C.UTF-8 \
@@ -27,7 +26,8 @@ in
     Unit.Description = "PostgreSQL";
 
     Service = {
-
+      StateDirectory = "postgres";
+      StateDirectoryMode = "0700";
       Type = "notify";
       ExecStartPre = "${init}";
       ExecStart = "${pg}/bin/postgres -D ${dataDir} -c unix_socket_directories=${baseDir} -c listen_addresses=";
