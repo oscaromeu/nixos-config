@@ -55,6 +55,10 @@ let
         INTERNAL_TOKEN_URI = "file:${workDir}/internal_token";
       };
 
+      # Without the URI forgejo generates one and tries to save it back into
+      # app.ini — read-only in the store, so it crash-loops.
+      oauth2.JWT_SECRET_URI = "file:${workDir}/oauth2_jwt_secret";
+
       # Single-user instance: accounts come from `forgejo admin user create`.
       service.DISABLE_REGISTRATION = true;
 
@@ -73,6 +77,8 @@ let
       ${forgejo} generate secret SECRET_KEY > ${workDir}/secret_key
     [ -s ${workDir}/internal_token ] ||
       ${forgejo} generate secret INTERNAL_TOKEN > ${workDir}/internal_token
+    [ -s ${workDir}/oauth2_jwt_secret ] ||
+      ${forgejo} generate secret JWT_SECRET > ${workDir}/oauth2_jwt_secret
     ${pg}/bin/psql -h ${pgSocket} -d postgres -tAc \
       "select 1 from pg_database where datname = 'forgejo'" | grep -qx 1 ||
       ${pg}/bin/createdb -h ${pgSocket} forgejo
