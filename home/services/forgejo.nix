@@ -161,6 +161,10 @@ in
       StateDirectory = "forgejo";
       StateDirectoryMode = "0700";
       Environment = [ "FORGEJO_WORK_DIR=${workDir}" ];
+      # The public ROOT_URL carries the domain, which stays out of this repo:
+      # sops injects it as FORGEJO__server__* overrides ("-": optional, so a
+      # fresh install before its rekey still boots on the app.ini defaults).
+      EnvironmentFile = "-${config.xdg.configHome}/forgejo/env";
       ExecStartPre = "${setup}";
       ExecStart = "${forgejo} web --config ${settings}";
       Restart = "on-failure";

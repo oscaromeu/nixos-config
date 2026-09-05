@@ -9,6 +9,11 @@
     mode = "0600";
   };
 
+  sops.secrets."forgejo-env" = {
+    path = "${config.xdg.configHome}/forgejo/env";
+    mode = "0400";
+  };
+
   # Same pinentry dance as the work laptop: without GPG_TTY, pinentry-curses
   # dies with "curses.isatty"; the agent caches the passphrase per session.
   programs.fish.interactiveShellInit = ''
