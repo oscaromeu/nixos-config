@@ -87,10 +87,12 @@ let
     ${forgejo} --config ${settings} migrate
     # First login asks to change it, so the file only matters once. The email
     # is a placeholder: the repo is public and there is no mailer anyway.
-    ${forgejo} --config ${settings} admin user list | grep -qw ${user} ||
+    if ! ${forgejo} --config ${settings} admin user list | grep -qw ${user}; then
+      ${forgejo} generate secret SECRET_KEY > ${workDir}/admin_password
       ${forgejo} --config ${settings} admin user create \
-        --admin --username ${user} --email ${user}@rebost.lan --random-password |
-        sed -n 's/.*random password is: //p' > ${workDir}/admin_password
+        --admin --username ${user} --email ${user}@rebost.lan \
+        --password "$(cat ${workDir}/admin_password)"
+    fi
   '';
 
   forgejo = "${pkgs.forgejo}/bin/forgejo";
