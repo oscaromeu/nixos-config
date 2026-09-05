@@ -148,6 +148,9 @@
             ./home/linux.nix
             ./home/common.nix # a headless box only gets the CLI half
             ./home/services/zot.nix # only the NAS serves a registry
+            ./home/services/valkey.nix # forgejo's cache and sessions
+            ./home/services/postgres.nix # forgejo's database
+            ./home/services/forgejo.nix
           ];
           extraArgs = { inherit zot-bin; };
         };

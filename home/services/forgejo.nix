@@ -1,0 +1,114 @@
+{ pkgs, config, ... }:
+let
+
+  workDir = "${config.home.homeDirectory}/forgejo";
+  pgSocket = "${config.home.homeDirectory}/pg"; # keep in sync with postgres.nix
+
+  # The NAS has no tailscale yet — LAN address until it does.
+  host = "10.69.1.32";
+
+  settings = (pkgs.formats.iniWithGlobalSection { }).generate "app.ini" {
+    globalSection = {
+      APP_NAME = "rebost";
+      RUN_MODE = "prod";
+      WORK_PATH = workDir;
+    };
+
+    sections = {
+      server = {
+        DOMAIN = host;
+        ROOT_URL = "http://${host}:3000/";
+        HTTP_ADDR = "0.0.0.0";
+        HTTP_PORT = 3000;
+        APP_DATA_PATH = "${workDir}/data";
+        # A user unit cannot bind 22, so forgejo runs its own ssh server on a
+        # high port; keys live in its database, not in authorized_keys.
+        START_SSH_SERVER = true;
+        SSH_DOMAIN = host;
+        SSH_PORT = 2222;
+        SSH_LISTEN_PORT = 2222;
+      };
+
+      # Over the postgres socket as the unix user: peer auth, no password.
+      database = {
+        DB_TYPE = "postgres";
+        HOST = pgSocket;
+        NAME = "forgejo";
+        USER = config.home.username;
+        SSL_MODE = "disable";
+      };
+
+      cache = {
+        ADAPTER = "redis";
+        HOST = "redis://127.0.0.1:6379/0";
+      };
+      session = {
+        PROVIDER = "redis";
+        PROVIDER_CONFIG = "redis://127.0.0.1:6379/1";
+      };
+
+      # The secrets are generated on the machine at first start (see below),
+      # so the app.ini in the store never holds one.
+      security = {
+        INSTALL_LOCK = true;
+        SECRET_KEY_URI = "file:${workDir}/secret_key";
+        INTERNAL_TOKEN_URI = "file:${workDir}/internal_token";
+      };
+
+      # Single-user instance: accounts come from `forgejo admin user create`.
+      service.DISABLE_REGISTRATION = true;
+
+      # journald already keeps the logs.
+      log.MODE = "console";
+
+      # No CI on the NAS.
+      actions.ENABLED = false;
+    };
+  };
+
+  setup = pkgs.writeShellScript "forgejo-setup" ''
+    mkdir -p ${workDir}/data
+    umask 077
+    [ -s ${workDir}/secret_key ] ||
+      ${pkgs.forgejo}/bin/forgejo generate secret SECRET_KEY > ${workDir}/secret_key
+    [ -s ${workDir}/internal_token ] ||
+      ${pkgs.forgejo}/bin/forgejo generate secret INTERNAL_TOKEN > ${workDir}/internal_token
+    ${pg}/bin/psql -h ${pgSocket} -d postgres -tAc \
+      "select 1 from pg_database where datname = 'forgejo'" | grep -qx 1 ||
+      ${pg}/bin/createdb -h ${pgSocket} forgejo
+  '';
+
+  pg = pkgs.postgresql_17;
+
+in
+{
+  # The CLI is the admin interface (user create, doctor, dump).
+  home.packages = [ pkgs.forgejo ];
+
+  systemd.user.services.forgejo = {
+    Unit = {
+      Description = "Forgejo";
+      # postgres is Type=notify, so After here means it accepts connections.
+      Wants = [
+        "postgres.service"
+        "valkey.service"
+        "network-online.target"
+      ];
+      After = [
+        "postgres.service"
+        "valkey.service"
+        "network-online.target"
+      ];
+    };
+
+    Service = {
+      Environment = [ "FORGEJO_WORK_DIR=${workDir}" ];
+      ExecStartPre = "${setup}";
+      ExecStart = "${pkgs.forgejo}/bin/forgejo web --config ${settings}";
+      Restart = "on-failure";
+      RestartSec = 5;
+    };
+
+    Install.WantedBy = [ "default.target" ];
+  };
+}
