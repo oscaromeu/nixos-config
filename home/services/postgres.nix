@@ -29,8 +29,10 @@ in
       StateDirectory = "postgres";
       StateDirectoryMode = "0700";
       Type = "notify";
+      Environment = [ "PGBACKREST_CONFIG=${config.xdg.configHome}/pgbackrest/pgbackrest.conf" ];
+      EnvironmentFile = "-${config.xdg.configHome}/pgbackrest/cipher.env";
       ExecStartPre = "${init}";
-      ExecStart = "${pg}/bin/postgres -D ${dataDir} -c unix_socket_directories=${baseDir} -c listen_addresses=";
+      ExecStart = "${pg}/bin/postgres -D ${dataDir} -c unix_socket_directories=${baseDir} -c listen_addresses= -c archive_mode=on -c \"archive_command=${pkgs.pgbackrest}/bin/pgbackrest --stanza=main archive-push %%p\"";
       Restart = "on-failure";
       RestartSec = 5;
     };
