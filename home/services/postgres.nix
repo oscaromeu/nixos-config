@@ -23,7 +23,13 @@ in
   home.sessionVariables.PGHOST = baseDir;
 
   systemd.user.services.postgres = {
-    Unit.Description = "PostgreSQL";
+    Unit = {
+      Description = "PostgreSQL";
+      # sops writes the cipher.env this unit reads: without the ordering,
+      # the first boot after a fresh install races it and archiving fails.
+      Wants = [ "sops-nix.service" ];
+      After = [ "sops-nix.service" ];
+    };
 
     Service = {
       StateDirectory = "postgres";
