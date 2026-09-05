@@ -1,4 +1,3 @@
-# Night light, off by default. Coordinates are Madrid.
 { ... }:
 {
   services = {

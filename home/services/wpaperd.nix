@@ -1,4 +1,3 @@
-# Rotates every 2 min through asset/wallpaper.
 { ... }:
 let
 

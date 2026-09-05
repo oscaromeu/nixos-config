@@ -4,7 +4,6 @@ let
   workDir = "${config.home.homeDirectory}/forgejo";
   pgSocket = "${config.home.homeDirectory}/pg"; # keep in sync with postgres.nix
 
-  # The NAS has no tailscale yet — LAN address until it does.
   host = "10.69.1.32";
 
   settings = (pkgs.formats.iniWithGlobalSection { }).generate "app.ini" {
@@ -21,15 +20,12 @@ let
         HTTP_ADDR = "0.0.0.0";
         HTTP_PORT = 3000;
         APP_DATA_PATH = "${workDir}/data";
-        # A user unit cannot bind 22, so forgejo runs its own ssh server on a
-        # high port; keys live in its database, not in authorized_keys.
         START_SSH_SERVER = true;
         SSH_DOMAIN = host;
         SSH_PORT = 2222;
         SSH_LISTEN_PORT = 2222;
       };
 
-      # Over the postgres socket as the unix user: peer auth, no password.
       database = {
         DB_TYPE = "postgres";
         HOST = pgSocket;
@@ -47,7 +43,7 @@ let
         PROVIDER_CONFIG = "redis://127.0.0.1:6379/1";
       };
 
-      # The secrets are generated on the machine at first start (see below),
+      # The secrets are generated on the machine at first start,
       # so the app.ini in the store never holds one.
       security = {
         INSTALL_LOCK = true;
@@ -65,8 +61,7 @@ let
       # journald already keeps the logs.
       log.MODE = "console";
 
-      # No CI on the NAS.
-      actions.ENABLED = false;
+      actions.ENABLED = true;
     };
   };
 
@@ -102,7 +97,6 @@ let
 
 in
 {
-  # The CLI is the admin interface (user create, doctor, dump).
   home.packages = [ pkgs.forgejo ];
 
   systemd.user.services.forgejo = {

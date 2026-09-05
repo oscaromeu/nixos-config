@@ -15,7 +15,6 @@ let
 
 in
 {
-  # valkey-cli, for the PONG check and poking at keys.
   home.packages = [ pkgs.valkey ];
 
   systemd.user.services.valkey = {

@@ -38,7 +38,7 @@ let
     distSpecVersion = "1.1.0";
     storage.rootDirectory = dataDir;
     http = {
-      address = "0.0.0.0"; # the cluster pulls from another box
+      address = "0.0.0.0";
       inherit port;
     };
     log.level = "info";
