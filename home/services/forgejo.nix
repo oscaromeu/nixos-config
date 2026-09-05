@@ -26,11 +26,13 @@ let
         SSH_LISTEN_PORT = 2222;
       };
 
+      # Its own role, mapped from the oscar unix user in pg_ident (postgres.nix)
+      # — the app never runs as the bootstrap superuser.
       database = {
         DB_TYPE = "postgres";
         HOST = pgSocket;
         NAME = "forgejo";
-        USER = user;
+        USER = "forgejo";
         SSL_MODE = "disable";
       };
 
@@ -75,8 +77,11 @@ let
     [ -s ${workDir}/oauth2_jwt_secret ] ||
       ${forgejo} generate secret JWT_SECRET > ${workDir}/oauth2_jwt_secret
     ${pg}/bin/psql -h ${pgSocket} -d postgres -tAc \
+      "select 1 from pg_roles where rolname = 'forgejo'" | grep -qx 1 ||
+      ${pg}/bin/createuser -h ${pgSocket} forgejo
+    ${pg}/bin/psql -h ${pgSocket} -d postgres -tAc \
       "select 1 from pg_database where datname = 'forgejo'" | grep -qx 1 ||
-      ${pg}/bin/createdb -h ${pgSocket} forgejo
+      ${pg}/bin/createdb -h ${pgSocket} -O forgejo forgejo
     # The admin commands assume the schema exists; on a fresh database
     # nothing has created it yet.
     ${forgejo} --config ${settings} migrate
