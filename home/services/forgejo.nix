@@ -1,4 +1,10 @@
-{ pkgs, config, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  profile,
+  ...
+}:
 let
 
   workDir = "${config.xdg.stateHome}/forgejo";
@@ -60,7 +66,6 @@ let
       # Single-user instance: accounts come from `forgejo admin user create`.
       service.DISABLE_REGISTRATION = true;
 
-      # journald already keeps the logs.
       log.MODE = "console";
 
       actions.ENABLED = true;
@@ -93,6 +98,35 @@ let
         --admin --username ${user} --email ${user}@rebost.lan \
         --password "$(cat ${workDir}/admin_password)"
     fi
+  '';
+
+  # The web API is the only writer of user ssh keys (the CLI has no key
+  # command), so this runs after the server is up. The common case — key
+  # already registered — is a single psql query, no tokens involved.
+  ensureKeys = pkgs.writeShellScript "forgejo-ensure-keys" ''
+    for i in $(seq 1 30); do
+      ${pkgs.curl}/bin/curl -sf -o /dev/null http://localhost:3000/api/healthz && break
+      sleep 1
+    done
+    ${lib.concatStrings (
+      lib.imap1 (i: key: ''
+        blob='${builtins.elemAt (lib.splitString " " key) 1}'
+        if ! ${pg}/bin/psql -h ${pgSocket} -d forgejo -tAc \
+            "select 1 from public_key where content like '%'||'$blob'||'%'" | grep -qx 1; then
+          ${pg}/bin/psql -h ${pgSocket} -d forgejo -c \
+            "delete from access_token where name = 'nix-ensure-keys'" >/dev/null
+          token=$(${forgejo} --config ${settings} admin user generate-access-token \
+            --username ${user} --token-name nix-ensure-keys --scopes write:user --raw | tail -1 | tr -d '[:space:]')
+          ${pkgs.curl}/bin/curl -sf -X POST http://localhost:3000/api/v1/user/keys \
+            -H "Authorization: token $token" -H "Content-Type: application/json" \
+            -d '{"title":"nix-${toString i}","key":"${key}"}' >/dev/null ||
+            echo "ensure-keys: failed to register key ${toString i}" >&2
+          ${pg}/bin/psql -h ${pgSocket} -d forgejo -c \
+            "delete from access_token where name = 'nix-ensure-keys'" >/dev/null
+        fi
+      '') profile.sshKeys
+    )}
+    exit 0
   '';
 
   forgejo = "${pkgs.forgejo}/bin/forgejo";
@@ -128,7 +162,8 @@ in
       ExecStart = "${forgejo} web --config ${settings}";
       Restart = "on-failure";
       RestartSec = 5;
-    };
+    }
+    // lib.optionalAttrs (profile.sshKeys != [ ]) { ExecStartPost = "${ensureKeys}"; };
 
     Install.WantedBy = [ "default.target" ];
   };

@@ -23,7 +23,10 @@ let
   timezone = "Europe/Madrid";
   locale = "es_ES.UTF-8";
 
-  sshKeys = [ ];
+  # Public halves only. forgejo.nix registers these on the git account.
+  sshKeys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGi7BlQxiPqir00iS6I+9iiWuE1i9EmZeWRLqyuAZjCD oscar@mac"
+  ];
 
 in
 {
