@@ -32,14 +32,12 @@ let
         SSH_LISTEN_PORT = 2222;
       };
 
-      # Its own role, mapped from the oscar unix user in pg_ident (postgres.nix)
-      # — the app never runs as the bootstrap superuser.
       database = {
         DB_TYPE = "postgres";
         HOST = pgSocket;
         NAME = "forgejo";
         USER = "forgejo";
-        SSL_MODE = "disable";
+        SSL_MODE = "disable"; #  WORKOUT! pending to enable TLS on the socket, see postgres.nix
       };
 
       cache = {
@@ -65,6 +63,11 @@ let
 
       # Single-user instance: accounts come from `forgejo admin user create`.
       service.DISABLE_REGISTRATION = true;
+
+      repository = {
+        ENABLE_PUSH_CREATE_USER = true;
+        DEFAULT_PRIVATE = "private";
+      };
 
       log.MODE = "console";
 
