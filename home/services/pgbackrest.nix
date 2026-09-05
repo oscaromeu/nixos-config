@@ -6,6 +6,15 @@ let
   confPath = "${config.xdg.configHome}/pgbackrest/pgbackrest.conf";
   cipherEnv = "${config.xdg.configHome}/pgbackrest/cipher.env";
 
+  # The human interface: loads config, cipher and stanza so `pgbr info` just
+  # works. Bare pgbackrest without them greets you with "missing stanza path".
+  pgbr = pkgs.writeShellScriptBin "pgbr" ''
+    export PGBACKREST_CONFIG=${confPath}
+    export PGBACKREST_STANZA=main
+    set -a; . ${cipherEnv}; set +a
+    exec ${pkgs.pgbackrest}/bin/pgbackrest "$@"
+  '';
+
   backup = type: {
     Unit.Description = "pgBackRest ${type} backup";
     Service = {
@@ -20,7 +29,10 @@ let
 
 in
 {
-  home.packages = [ pkgs.pgbackrest ];
+  home.packages = [
+    pkgs.pgbackrest
+    pgbr
+  ];
   home.sessionVariables.PGBACKREST_CONFIG = confPath;
 
   xdg.configFile."pgbackrest/pgbackrest.conf".text = ''
