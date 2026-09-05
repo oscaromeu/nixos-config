@@ -34,7 +34,7 @@ let
         DB_TYPE = "postgres";
         HOST = pgSocket;
         NAME = "forgejo";
-        USER = config.home.username;
+        USER = user;
         SSL_MODE = "disable";
       };
 
@@ -70,13 +70,25 @@ let
     mkdir -p ${workDir}/data
     umask 077
     [ -s ${workDir}/secret_key ] ||
-      ${pkgs.forgejo}/bin/forgejo generate secret SECRET_KEY > ${workDir}/secret_key
+      ${forgejo} generate secret SECRET_KEY > ${workDir}/secret_key
     [ -s ${workDir}/internal_token ] ||
-      ${pkgs.forgejo}/bin/forgejo generate secret INTERNAL_TOKEN > ${workDir}/internal_token
+      ${forgejo} generate secret INTERNAL_TOKEN > ${workDir}/internal_token
     ${pg}/bin/psql -h ${pgSocket} -d postgres -tAc \
       "select 1 from pg_database where datname = 'forgejo'" | grep -qx 1 ||
       ${pg}/bin/createdb -h ${pgSocket} forgejo
+    # The admin commands assume the schema exists; on a fresh database
+    # nothing has created it yet.
+    ${forgejo} --config ${settings} migrate
+    # First login asks to change it, so the file only matters once. The email
+    # is a placeholder: the repo is public and there is no mailer anyway.
+    ${forgejo} --config ${settings} admin user list | grep -qw ${user} ||
+      ${forgejo} --config ${settings} admin user create \
+        --admin --username ${user} --email ${user}@rebost.lan --random-password |
+        sed -n 's/.*random password is: //p' > ${workDir}/admin_password
   '';
+
+  forgejo = "${pkgs.forgejo}/bin/forgejo";
+  user = config.home.username;
 
   pg = pkgs.postgresql_17;
 
@@ -104,7 +116,7 @@ in
     Service = {
       Environment = [ "FORGEJO_WORK_DIR=${workDir}" ];
       ExecStartPre = "${setup}";
-      ExecStart = "${pkgs.forgejo}/bin/forgejo web --config ${settings}";
+      ExecStart = "${forgejo} web --config ${settings}";
       Restart = "on-failure";
       RestartSec = 5;
     };
