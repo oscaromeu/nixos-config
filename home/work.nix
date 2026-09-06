@@ -75,6 +75,7 @@ in
       shellAbbrs = {
         kp = "kubectl --kubeconfig ~/.kube/prod/flanks-pro.yaml";
         k9sp = "env KUBECONFIG=(string join : $HOME/.kube/prod/*.yaml) k9s";
+        sofkap = "env KUBECONFIG=(string join : $HOME/.kube/prod/*.yaml) sofka";
       };
     };
     mise = {
