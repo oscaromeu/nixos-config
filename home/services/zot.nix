@@ -42,6 +42,8 @@ let
       inherit port;
     };
     log.level = "info";
+    extensions.search.enable = true;
+    extensions.ui.enable = true;
     extensions.sync = {
       enable = true;
       registries = [
@@ -53,9 +55,6 @@ let
     };
   };
 
-  # The store config stays auth-free so a fresh install boots anonymous; the
-  # sops fragment (auth + externalUrl, carrying domain and secrets) is merged
-  # in at runtime when present.
   mergeConfig = pkgs.writeShellScript "zot-merge-config" ''
     frag=${config.xdg.configHome}/zot/http-fragment.json
     if [ -s "$frag" ]; then
