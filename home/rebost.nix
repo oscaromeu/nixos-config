@@ -14,6 +14,21 @@
     mode = "0400";
   };
 
+  # The whole zot auth bundle rides in one fragment (see zot.nix): openid
+  # against kanidm, the break-glass htpasswd and the public externalUrl.
+  sops.secrets."zot-http-fragment" = {
+    path = "${config.xdg.configHome}/zot/http-fragment.json";
+    mode = "0400";
+  };
+  sops.secrets."zot-oidc-credentials" = {
+    path = "${config.xdg.configHome}/zot/oidc-credentials.json";
+    mode = "0400";
+  };
+  sops.secrets."zot-htpasswd" = {
+    path = "${config.xdg.configHome}/zot/htpasswd";
+    mode = "0400";
+  };
+
   # Same pinentry dance as the work laptop: without GPG_TTY, pinentry-curses
   # dies with "curses.isatty"; the agent caches the passphrase per session.
   programs.fish.interactiveShellInit = ''

@@ -53,18 +53,39 @@ let
     };
   };
 
+  # The store config stays auth-free so a fresh install boots anonymous; the
+  # sops fragment (auth + externalUrl, carrying domain and secrets) is merged
+  # in at runtime when present.
+  mergeConfig = pkgs.writeShellScript "zot-merge-config" ''
+    frag=${config.xdg.configHome}/zot/http-fragment.json
+    if [ -s "$frag" ]; then
+      ${pkgs.jq}/bin/jq -s '.[0] * .[1]' ${settings} "$frag" > "$RUNTIME_DIRECTORY/config.json"
+    else
+      cp ${settings} "$RUNTIME_DIRECTORY/config.json"
+    fi
+  '';
+
 in
 {
   systemd.user.services.zot = {
     Unit = {
       Description = "zot OCI registry";
-      Wants = [ "network-online.target" ];
-      After = [ "network-online.target" ];
+      Wants = [
+        "network-online.target"
+        "sops-nix.service"
+      ];
+      After = [
+        "network-online.target"
+        "sops-nix.service"
+      ];
     };
 
     Service = {
       CacheDirectory = "zot";
-      ExecStart = "${zot}/bin/zot serve ${settings}";
+      RuntimeDirectory = "zot";
+      RuntimeDirectoryMode = "0700";
+      ExecStartPre = "${mergeConfig}";
+      ExecStart = "${zot}/bin/zot serve %t/zot/config.json";
       Restart = "on-failure";
       RestartSec = 5;
     };
