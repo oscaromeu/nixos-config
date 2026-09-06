@@ -1,10 +1,5 @@
 # Packages with no config of their own; the configured ones live in home/programs.
-{
-  pkgs,
-  pkgsUnstable,
-  sofka, # from its own flake, not nixpkgs
-  ...
-}:
+{ pkgs, pkgsUnstable, ... }:
 with pkgs;
 let
 
@@ -42,7 +37,6 @@ let
     kubectl
     kubernetes-helm
     makejinja
-    sofka
     talhelper
     yq-go
   ];
