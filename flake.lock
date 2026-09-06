@@ -58,8 +58,29 @@
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "sofka": "sofka",
         "sops-nix": "sops-nix",
         "zot-bin": "zot-bin"
+      }
+    },
+    "sofka": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788722183,
+        "narHash": "sha256-XZ/XAPKvbW06BQOfLmaEKM40DxFlUuSNpDTCd3BhPsU=",
+        "owner": "nklmilojevic",
+        "repo": "sofka",
+        "rev": "559de3a2ed790e948dfaeba95617be147252dad4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nklmilojevic",
+        "repo": "sofka",
+        "type": "github"
       }
     },
     "sops-nix": {

@@ -21,6 +21,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Not in nixpkgs; its flake tracks the same release, so follows costs nothing.
+    sofka = {
+      url = "github:nklmilojevic/sofka";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # zot is not in nixpkgs and the RK1 is not for compiling Go, so this is the
     # release binary. Its hash lives in flake.lock, not here: renovate only
     # bumps the URL and nix relocks it on the next switch.
@@ -37,6 +43,7 @@
       nixpkgs-unstable,
       home-manager,
       sops-nix,
+      sofka,
       zot-bin,
       ...
     }:
@@ -53,6 +60,7 @@
           theme
           ;
         alias = import ./config/abbr.nix { inherit profile; };
+        sofka = sofka.packages.${system}.default;
         pkgsUnstable = import nixpkgs-unstable {
           inherit system;
           config.allowUnfree = true;
