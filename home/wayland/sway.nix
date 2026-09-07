@@ -85,6 +85,8 @@ in
             "type:keyboard" = {
               xkb_layout = "${profile.layout}";
               xkb_variant = "${profile.variant}";
+              # RCtrl físico pasa a ser Super_R (Mod4); LCtrl queda intacto
+              xkb_options = "ctrl:swap_rwin_rctl";
             };
 
             "type:touchpad" = {

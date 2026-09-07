@@ -34,6 +34,8 @@
       };
       keybindings = {
         "ctrl+c" = "copy_or_interrupt";
+        # Super no llega a apps de terminal: RCtrl(=Super)+a → M-a, el prefix de tmux
+        "super+a" = "send_key alt+a";
       };
       extraConfig = ''
         # ungrabbed: only when the app is not using the mouse itself (nvim keeps its own right-click)
