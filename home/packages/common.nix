@@ -36,6 +36,7 @@ let
     kubeconform
     kubectl
     kubernetes-helm
+    kustomize
     makejinja
     talhelper
     yq-go
