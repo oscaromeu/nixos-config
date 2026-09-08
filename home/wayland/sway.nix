@@ -85,8 +85,6 @@ in
             "type:keyboard" = {
               xkb_layout = "${profile.layout}";
               xkb_variant = "${profile.variant}";
-              # RCtrl actúa como Alt derecho: RCtrl+a = prefix de tmux (M-a)
-              xkb_options = "ctrl:rctrl_ralt";
             };
 
             "type:touchpad" = {
