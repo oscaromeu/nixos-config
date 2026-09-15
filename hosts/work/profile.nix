@@ -24,6 +24,11 @@ let
       position = "1920,0";
     }
     {
+      name = "LG Electronics LG HDR 4K 0x000768B0";
+      scale = "1.5";
+      position = "1920,0";
+    }
+    {
       name = "LG Electronics LG HDR WFHD 0x0005FC4A";
       scale = "1.0";
       position = "1920,0";
