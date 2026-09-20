@@ -34,5 +34,9 @@
         ".direnv/"
       ];
     };
+
+    lazygit = {
+      enable = true;
+    };
   };
 }
