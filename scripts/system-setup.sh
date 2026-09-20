@@ -131,15 +131,10 @@ if [ -e "$vpn_conf" ]; then
   if [ ! -e /usr/lib/NetworkManager/VPN/nm-openvpn-service.name ] && command -v apt-get >/dev/null 2>&1; then
     sudo apt-get install -y network-manager-openvpn
   fi
-  # The dead wireguard attempt may still hold the name.
-  if nmcli -t -f NAME,TYPE connection show | grep -qx "$vpn_name:wireguard"; then
+  if nmcli -t -f NAME connection show | grep -qx "$vpn_name"; then
     sudo nmcli connection delete "$vpn_name"
   fi
-  if nmcli -t -f NAME connection show | grep -qx "$vpn_name"; then
-    echo "already imported: $vpn_name"
-  else
-    sudo nmcli connection import type openvpn file "$vpn_conf"
-  fi
+  sudo nmcli connection import type openvpn file "$vpn_conf"
   # The UniFi server speaks classic AES-256-CBC; a 2.6 client offers only the
   # GCM family by default and the server answers "no shared cipher".
   sudo nmcli connection modify "$vpn_name" +vpn.data "data-ciphers=AES-256-GCM:AES-128-GCM:CHACHA20-POLY1305:AES-256-CBC"
@@ -153,6 +148,7 @@ if [ -e "$vpn_conf" ]; then
   # Split DNS: the routing domain wins over whatever else claims every name.
   sudo nmcli connection modify "$vpn_name" ipv4.dns "$vpn_dns"
   sudo nmcli connection modify "$vpn_name" ipv4.dns-search "$vpn_domain"
+  sudo nmcli connection modify "$vpn_name" ipv4.ignore-auto-dns yes
   sudo nmcli connection modify "$vpn_name" ipv4.never-default yes
   sudo nmcli connection modify "$vpn_name" connection.autoconnect no
 fi

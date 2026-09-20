@@ -10,6 +10,8 @@ let
       google-cloud-sdk.components.gke-gcloud-auth-plugin
     ])
     google-cloud-sql-proxy
+    # netstat: cloudconnect/sql-proxy.sh comprueba puertos en escucha con él.
+    nettools
   ];
 
   iac = [
