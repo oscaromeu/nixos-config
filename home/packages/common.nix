@@ -29,6 +29,7 @@ let
     sops
     gopass
     pkgsUnstable.yopass
+    cmctl
     pkgsUnstable.cue
     fluxcd
     go-task # task
