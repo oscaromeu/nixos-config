@@ -34,6 +34,7 @@ let
     fluxcd
     go-task # task
     helmfile
+    pkgsUnstable.krr
     kubeconform
     kubectl
     kubernetes-helm
