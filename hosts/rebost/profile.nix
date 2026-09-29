@@ -25,7 +25,7 @@ let
 
   # Public halves only. forgejo.nix registers these on the git account.
   sshKeys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGi7BlQxiPqir00iS6I+9iiWuE1i9EmZeWRLqyuAZjCD oscar@mac"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF8fdjfoWtCDNWIomCaPSr23tiAGmSmw2PVed9QEIOpq oscar@20260925"
   ];
 
 in
