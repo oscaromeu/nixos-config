@@ -19,6 +19,7 @@ let
     nixd
     nixfmt
     gnumake
+    gcc
     nodejs
     python3
   ];
