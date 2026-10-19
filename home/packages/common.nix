@@ -6,6 +6,7 @@ let
   cli = [
     bottom # btm
     fd
+    ffmpeg
     file
     p7zip
     ripgrep # rg
