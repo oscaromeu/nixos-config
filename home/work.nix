@@ -27,6 +27,7 @@ in
   imports = [
     ./programs/chrome.nix
     ./programs/claude-code.nix
+    ./programs/mise.nix
   ];
 
   # The tunnel itself is system layer, so only its config comes from here.
@@ -79,9 +80,6 @@ in
         k9sp = "env KUBECONFIG=(string join : $HOME/.kube/prod/*.yaml) k9s";
         sofkap = "env KUBECONFIG=(string join : $HOME/.kube/prod/*.yaml) sofka";
       };
-    };
-    mise = {
-      enable = true;
     };
   };
 
