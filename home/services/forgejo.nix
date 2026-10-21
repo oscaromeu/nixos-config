@@ -95,6 +95,12 @@ let
     ${forgejo} --config ${settings} migrate
     # First login asks to change it, so the file only matters once. The email
     # is a placeholder: the repo is public and there is no mailer anyway.
+    # Declarative runner registration: same secret as forgejo-runner.nix.
+    # Guarded so a fresh install before its rekey still boots.
+    if [ -s ${config.sops.secrets."forgejo-runner-secret".path} ]; then
+      ${forgejo} --config ${settings} actions register --keep-labels \
+        --name rebost --secret "$(cat ${config.sops.secrets."forgejo-runner-secret".path})"
+    fi
     if ! ${forgejo} --config ${settings} admin user list | grep -qw ${user}; then
       ${forgejo} generate secret SECRET_KEY > ${workDir}/admin_password
       ${forgejo} --config ${settings} admin user create \
