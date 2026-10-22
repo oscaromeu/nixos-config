@@ -161,6 +161,7 @@
             ./home/services/postgres.nix # forgejo's database
             ./home/services/pgbackrest.nix # its encrypted backups on /data
             ./home/services/forgejo.nix
+            ./home/services/forgejo-runner.nix # actions, docker executor
           ];
           extraArgs = { inherit zot-bin; };
         };

@@ -14,6 +14,11 @@
     mode = "0400";
   };
 
+  # Shared secret between the forgejo CLI registration and the runner.
+  sops.secrets."forgejo-runner-secret" = {
+    mode = "0400";
+  };
+
   # The whole zot auth bundle rides in one fragment (see zot.nix): openid
   # against kanidm, the break-glass htpasswd and the public externalUrl.
   sops.secrets."zot-http-fragment" = {
