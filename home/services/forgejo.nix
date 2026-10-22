@@ -98,8 +98,8 @@ let
     # Declarative runner registration: same secret as forgejo-runner.nix.
     # Guarded so a fresh install before its rekey still boots.
     if [ -s ${config.sops.secrets."forgejo-runner-secret".path} ]; then
-      ${forgejo} --config ${settings} actions register --keep-labels \
-        --name rebost --secret "$(cat ${config.sops.secrets."forgejo-runner-secret".path})"
+      ${forgejo} forgejo-cli actions register --config ${settings} --keep-labels \
+        --name rebost --secret-file ${config.sops.secrets."forgejo-runner-secret".path}
     fi
     if ! ${forgejo} --config ${settings} admin user list | grep -qw ${user}; then
       ${forgejo} generate secret SECRET_KEY > ${workDir}/admin_password

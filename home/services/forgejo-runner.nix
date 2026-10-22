@@ -44,6 +44,10 @@ in
     };
 
     Service = {
+      # systemd chdirs into WorkingDirectory before ExecStartPre, so the
+      # directory has to exist before the setup script could create it.
+      StateDirectory = "forgejo-runner";
+      StateDirectoryMode = "0700";
       WorkingDirectory = workDir;
       ExecStartPre = "${setup}";
       ExecStart = "${runner} daemon --config ${settings}";
