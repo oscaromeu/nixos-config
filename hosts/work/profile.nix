@@ -33,6 +33,11 @@ let
       scale = "1.0";
       position = "1920,0";
     }
+    {
+      name = "Samsung Electric Company SAMSUNG 0x01000001";
+      scale = "1.0";
+      position = "1920,0";
+    }
   ];
 
   timezone = "Europe/Madrid";
