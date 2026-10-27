@@ -34,6 +34,14 @@ vim.lsp.config('lua_ls', {
 
 -- Schemas from SchemaStore: kubernetes manifests, taskfiles, github actions...
 vim.lsp.config('yamlls', {
+  -- yamlls reindents sequence items (dashes go to +2 spaces), which rewrites
+  -- whole files whose style keeps the dash aligned with its parent. conform has
+  -- no yaml formatter, so format_on_save falls back to the LSP and this fires on
+  -- every save. Drop its formatting only; keep schemas, diagnostics and nav.
+  on_attach = function(client)
+    client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
+  end,
   settings = {
     yaml = {
       schemaStore = { enable = false, url = '' },
