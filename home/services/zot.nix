@@ -9,15 +9,15 @@ let
 
   port = "5000";
 
-  # Whatever the sync extension proxies can be fetched again, so it is cache.
-  cacheDir = "${config.xdg.cacheHome}/zot";
-
-  # Whatever is pushed here is the only copy, so it goes on the array.
-  pushDir = "/data/zot";
+  # Nothing here expires, so none of it is cache: both stores are state and
+  # both live on the array. Siblings and not nested, because the root store
+  # walks its own directory to build the catalog.
+  mirrorDir = "/data/zot/mirror";
+  pushDir = "/data/zot/rebost";
 
   # zot picks a storage subpath by the first element of the repo name, so the
   # prefix that keeps our images out of the proxied namespace is the same
-  # thing that keeps their blobs on a different disk.
+  # thing that keeps their blobs in their own store.
   namespace = "rebost";
 
   # The release binary is a dynamically linked PIE, so it still needs patching
@@ -42,50 +42,30 @@ let
     retryDelay = "5m";
   };
 
-  # Both stores collect their own garbage: retention is per storage root.
+  # Retention is per storage root, so both stores carry the same one: tags
+  # never expire, only the manifests a re-push or a re-sync leaves untagged.
   collect = {
     gc = true;
     gcDelay = "1h";
     gcInterval = "24h";
+    retention = {
+      delay = "24h";
+      policies = [
+        {
+          repositories = [ "**" ];
+          deleteUntagged = true;
+        }
+      ];
+    };
   };
 
   settings = (pkgs.formats.json { }).generate "zot.json" {
     distSpecVersion = "1.1.0";
 
     storage = collect // {
-      rootDirectory = cacheDir;
-
-      # A cached tag nobody has pulled in a month is cheaper to fetch again
-      # than to keep.
-      retention = {
-        delay = "24h";
-        policies = [
-          {
-            repositories = [ "**" ];
-            deleteUntagged = true;
-            keepTags = [
-              {
-                patterns = [ ".*" ];
-                pulledWithin = "720h";
-              }
-            ];
-          }
-        ];
-      };
-
-      # No keepTags here: a pushed tag never expires, only the manifests that
-      # re-pushing the same tag leaves untagged behind it.
+      rootDirectory = mirrorDir;
       subPaths."/${namespace}" = collect // {
         rootDirectory = pushDir;
-        retention = {
-          delay = "24h";
-          policies = [
-            {
-              repositories = [ "**" ];
-              deleteUntagged = true;
-            }
-          ];
-        };
       };
     };
 
@@ -132,13 +112,12 @@ in
     };
 
     Service = {
-      CacheDirectory = "zot";
       RuntimeDirectory = "zot";
       RuntimeDirectoryMode = "0700";
-      # The subpath store sits outside the directories systemd creates for
-      # the unit, so nothing else is going to make it.
+      # Both stores sit outside the directories systemd creates for the unit,
+      # so nothing else is going to make them.
       ExecStartPre = [
-        "${pkgs.coreutils}/bin/mkdir -p ${pushDir}"
+        "${pkgs.coreutils}/bin/mkdir -p ${mirrorDir} ${pushDir}"
         "${mergeConfig}"
       ];
       ExecStart = "${zot}/bin/zot serve %t/zot/config.json";
