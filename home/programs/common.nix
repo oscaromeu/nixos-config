@@ -15,6 +15,7 @@
     ./jq.nix
     ./k9s.nix
     ./nvim
+    ./skopeo.nix
     ./sofka.nix
     ./tmux.nix
     ./yazi.nix
