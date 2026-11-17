@@ -28,6 +28,7 @@ let
   devops = [
     # Secrets are edited from any machine; only decryption keys are per-machine.
     age
+    openbao
     sops
     gopass
     pkgsUnstable.yopass
