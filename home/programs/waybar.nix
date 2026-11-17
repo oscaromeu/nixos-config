@@ -200,7 +200,9 @@ in
             tooltip-format = "{controller_alias}\t{controller_address}";
             tooltip-format-connected = "{controller_alias}\t{controller_address}\n\n{device_enumerate}";
             tooltip-format-enumerate-connected = "{device_alias}\t{device_address}";
-            on-click = "${pkgs.rofi-bluetooth}/bin/rofi-bluetooth";
+            # waybar runs as a user service: on Ubuntu its PATH has no nix
+            # profile, and rofi-bluetooth expects rofi there.
+            on-click = "PATH=${pkgs.rofi}/bin:$PATH ${pkgs.rofi-bluetooth}/bin/rofi-bluetooth";
           };
           "tray" = {
             icon-size = 13;
