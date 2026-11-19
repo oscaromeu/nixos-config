@@ -35,6 +35,7 @@ let
     cmctl
     pkgsUnstable.cue
     fluxcd
+    (callPackage ./flate.nix { })
     go-task # task
     helmfile
     pkgsUnstable.krr
