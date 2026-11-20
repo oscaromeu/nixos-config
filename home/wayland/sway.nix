@@ -61,17 +61,17 @@ in
           gaps = {
             inner = 20;
           };
-          # Left of the space on the laptop panel, the rest on the external
-          # monitor when there is one; names that do not exist are ignored, so
-          # the same block is harmless on the desktop.
+          # Main workspaces on the external monitor when there is one (it acts
+          # as the primary screen), the rest on the laptop panel; names that do
+          # not exist are ignored, so the same block is harmless undocked.
           workspaceOutputAssign = [
-            { workspace = "1"; output = [ "eDP-1" ]; }
-            { workspace = "2"; output = [ "eDP-1" ]; }
-            { workspace = "3"; output = [ "eDP-1" ]; }
+            { workspace = "1"; output = externalFirst ++ [ "eDP-1" ]; }
+            { workspace = "2"; output = externalFirst ++ [ "eDP-1" ]; }
+            { workspace = "3"; output = externalFirst ++ [ "eDP-1" ]; }
             { workspace = "4"; output = externalFirst ++ [ "eDP-1" ]; }
-            { workspace = "5"; output = externalFirst ++ [ "eDP-1" ]; }
-            { workspace = "6"; output = externalFirst ++ [ "eDP-1" ]; }
-            { workspace = "7"; output = externalFirst ++ [ "eDP-1" ]; }
+            { workspace = "5"; output = [ "eDP-1" ]; }
+            { workspace = "6"; output = [ "eDP-1" ]; }
+            { workspace = "7"; output = [ "eDP-1" ]; }
           ];
           output = {
             "eDP-1".position = "0,0";
