@@ -13,6 +13,7 @@ let
     rsync
     unzip
     wget
+    yt-dlp
   ];
 
   dev = [
