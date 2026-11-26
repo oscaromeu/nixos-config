@@ -34,7 +34,7 @@ let
     gopass
     pkgsUnstable.yopass
     cmctl
-    pkgsUnstable.cue
+    (callPackage ./cue.nix { })
     fluxcd
     (callPackage ./flate.nix { })
     go-task # task
